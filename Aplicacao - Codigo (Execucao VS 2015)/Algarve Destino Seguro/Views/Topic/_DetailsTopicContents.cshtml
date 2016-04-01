@@ -1,0 +1,227 @@
+﻿@model Algarve_Destino_Seguro.Models.Topic
+@{
+    WebGrid webGridTopicContents = ViewBag.webGrid;
+}
+
+@webGridTopicContents.GetHtml(
+        tableStyle: "table table-hover",
+        columns: webGridTopicContents.Columns(
+                webGridTopicContents.Column("LanguageCode", "Idioma", format:
+                        @<text>
+                            <span id="LanguageCode">@item.LanguageCode</span>
+                        </text>
+                    ),
+                webGridTopicContents.Column("TranslatedTitle", "Tradução", format:
+                        @<text>
+                            <span class="display-topiccontent-mode" id="translatedTitle">@item.TranslatedTitle</span>
+                            <input class="form-control edit-topiccontent-mode" type="text" name="TranslatedTitle" id="TranslatedTitle" value="@item.TranslatedTitle" />
+                        </text>
+                    ),
+                webGridTopicContents.Column("Visibility", "Visibilidade", format:
+                        @<text>
+                            @if (item.Visibility)
+                            {
+                                <span class="display-topiccontent-mode" id="visibility">Sim</span>
+                            }
+                            else
+                            {
+                                <span class="display-topiccontent-mode" id="visibility">Não</span>
+                            }
+                            <input class="edit-topiccontent-mode" type="checkbox" name="Visibility" id="Visibility" value="true" @if (item.Visibility) { @Html.Raw("checked")   } />
+                            <input class="edit-topiccontent-mode" type="hidden" name="Visibility" value="false" />
+                        </text>
+                    ),
+                webGridTopicContents.Column("Document", "Documento", format:
+                        @<text>
+                            @if (item.Document == null)
+                            {
+                                <span class="display-topiccontent-mode" id="document"><i>(não existe documento)</i></span>
+                            }
+                            else
+                            {
+                                <span class="display-topiccontent-mode" id="document"><a href="~/Documents/Uploads/@Path.GetFileName(item.Document)" download>Descarregar</a></span>
+                            }
+                            <input class="edit-topiccontent-mode" type="file" name="Document" id="Document" accept=".html,.htm" />
+                        </text>
+                    ),
+                webGridTopicContents.Column(format:
+                        @<text>
+                            <a class="display-topiccontent-mode" href="@Url.Action("DetailsContent", "Topic", new { id = item.LanguageCode, topicTitle = Model.Title, topicThemeTitle = Model.ThemeTitle })" title="Ver Mais"><span class="glyphicon glyphicon-info-sign"></span></a>
+                            <a class="save-topiccontent edit-topiccontent-mode" href="javascript:void(0)" title="Guardar"><span class="glyphicon glyphicon-ok"></span></a>
+                        </text>
+                    ),
+                webGridTopicContents.Column(format:
+                        @<text>
+                            <a class="display-topiccontent-mode edit-topiccontent" href="javascript:void(0)" title="Editar"><span class="glyphicon glyphicon-edit"></span></a>
+                            <a class="edit-topiccontent-mode cancel-topiccontent" href="javascript:void(0)" title="Cancelar"><span class="glyphicon glyphicon-remove"></span></a>
+                        </text>
+                    ),
+                webGridTopicContents.Column(format:
+                        @<text>
+                            <input class="display-topiccontent-mode topiccontent-to-delete" type="checkbox" value="@item.LanguageCode" />
+                        </text>
+                    )
+            ),
+        mode: 0
+    )
+
+@if (webGridTopicContents.Rows.Count > 0)
+{
+    ViewBag.WebGrid = webGridTopicContents;
+    ViewBag.JSFunction = "getTopicContentsPage";
+    Html.RenderPartial("_Pagination");
+}
+
+<script>
+    // Function for table reloading (paging, ...)
+    function getTopicContentsPage(pageNumber) {
+        $.ajax({
+            type: "GET",
+            url: "/Topic/DetailsGetTopicContentsPage/@Html.Raw(Uri.EscapeDataString(Model.Title))?themeTitle=@Html.Raw(Uri.EscapeDataString(Model.ThemeTitle))&page=" + pageNumber,
+            success: function (viewHTML) {
+                $("#webgrid-topiccontents-content").html(viewHTML);
+            }
+        });
+    };
+
+    // Topic Contents function closure
+    $(function () {
+        // Dynamically add "Create", "Refresh" and "Delete" buttons to the table
+        var ths = $("#webgrid-topiccontents-content > table > thead > tr > th").slice(-3);
+        ths.eq(0).html(
+                '<a id="add-topiccontent" href="javascript:void(0)" title="Adicionar"><span class="glyphicon glyphicon-plus"></span></a>'
+            );
+        ths.eq(1).html(
+                '<a onclick="getTopicContentsPage(@webGridTopicContents.PageIndex)" href="javascript:void(0)" title="Actualizar"><span class="glyphicon glyphicon-refresh"></span></a>'
+            );
+        ths.eq(2).html(
+                '<a id="delete-topiccontent" href="javascript:void(0)" title="Apagar Seleccionados"><span class="glyphicon glyphicon-remove"></span></a>'
+            );
+
+        // Delete selected topic contents
+        $("#delete-topiccontent").on('click', function () {
+            $.each($(".topiccontent-to-delete:checked"), function (k, v) {
+                $.post(
+                    '/Topic/DeleteContent',
+                    {
+                        "topicThemeTitle": "@Html.Raw(Model.ThemeTitle)",
+                        "topicTitle": "@Html.Raw(Model.Title)",
+                        "languageCode": v.value
+                    },
+                    function (topicContent) {
+                        getTopicContentsPage(@webGridTopicContents.PageIndex);
+                    }, "json");
+            });
+        })
+
+        // Add topic contents
+        $("#add-topiccontent").on('click', function () {
+            // Add dynamic form to the table
+            $('#webgrid-topiccontents-content > table > tbody').prepend(
+                    '<tr>' +
+                        @{
+                            var options = "";
+                            foreach (var language in Algarve_Destino_Seguro.Models.DBAccessor.GetLanguages())
+                            {
+                                options += Html.Raw("<option value=\"" + Html.Raw(language.Code) + "\">" + Html.Raw(language.Code) + "</option>");
+                            }
+                        }
+                        '<td><select class="form-control" name="LanguageCode" id="LanguageCode">@Html.Raw(options)</select></td>' +
+                        '<td><input class="form-control" type="text" name="TranslatedTitle" id="TranslatedTitle" /></td>' +
+                        '<td><input type="checkbox" name="Visibility" id="Visibility" value="true" /><input type="hidden" name="Visibility" value="false" /></td>' +
+                        '<td><input type="file" name="Document" id="Document" accept=".html,.htm" /></td>' +
+                        '<td><a class="create-topiccontent" href="javascript:void(0)"><span class="glyphicon glyphicon-ok"></a></td>' +
+                        '<td><a class="cancel-create-topiccontent" href="javascript:void(0)"><span class="glyphicon glyphicon-remove"></a></td>' +
+                        '<td></td>' +
+                    '</tr>'
+                );
+
+            // Post creation to database
+            $('.create-topiccontent').on('click', function () {
+                var tr = $(this).parents('tr:first');
+
+                var document = tr.find('#Document')[0];
+                var form = new FormData();
+                form.append("TopicThemeTitle", "@Html.Raw(Model.ThemeTitle)");
+                form.append("TopicTitle", "@Html.Raw(Model.Title)");
+                form.append("LanguageCode", tr.find('#LanguageCode').val());
+                form.append("TranslatedTitle", tr.find('#TranslatedTitle').val());
+                form.append("Visibility", (tr.find('#Visibility:checked').length > 0) ? "true" : "false");
+                form.append("Document", document.files[0], document.value);
+
+                $.ajax({
+                    url: '/Topic/CreateContent',
+                    type: 'POST',
+                    processData: false,
+                    contentType: false,
+                    dataType: 'json',
+                    data: form
+                });
+
+                tr.remove();
+            });
+
+            // Cancel topic content creation
+            $('.cancel-create-topiccontent').on('click', function () {
+                $(this).parents('tr:first').remove();
+            });
+        });
+
+        // Edit topic content closure
+        $(function () {
+            // Hide al the edit-mode forms
+            $(".edit-topiccontent-mode").hide();
+
+            // Toggle a theme content for edition
+            $('.edit-topiccontent').on('click', function () {
+                $(this).parents('tr:first').find('.edit-topiccontent-mode, .display-topiccontent-mode').toggle();
+            });
+
+            // Post changes to databse
+            $('.save-topiccontent').on('click', function () {
+                var tr = $(this).parents('tr:first');
+
+                var document = tr.find('#Document')[0];
+                var form = new FormData();
+                form.append("TopicThemeTitle", "@Html.Raw(Model.ThemeTitle)");
+                form.append("TopicTitle", "@Html.Raw(Model.Title)");
+                form.append("LanguageCode", tr.find('#LanguageCode').text());
+                form.append("TranslatedTitle", tr.find('#TranslatedTitle').val());
+                form.append("Visibility", (tr.find('#Visibility:checked').length > 0) ? "true" : "false");
+                form.append("Document", document.files[0], document.value);
+
+                $.ajax({
+                    url: '/Topic/EditContent',
+                    type: 'POST',
+                    processData: false,
+                    contentType: false,
+                    dataType: 'json',
+                    data: form,
+                    success: function (topicContent) {
+                        tr.find('#translatedTitle').text(topicContent.TranslatedTitle);
+
+                        if (topicContent.Visibility) {
+                            tr.find('#visibility').text('Sim');
+                        } else {
+                            tr.find('#visibility').text('Não');
+                        }
+
+                        if (!topicContent.DocumentPath) {
+                            tr.find('#document').html('<i>(não existe documento)</i>');
+                        } else {
+                            var path = topicContent.DocumentPath.split('\\').pop();
+                            tr.find('#document').html('<a href="/Documents/Uploads/' + path + '" download>Descarregar</a>');
+                        }
+                    }
+                });
+
+                tr.find('.edit-topiccontent-mode, .display-topiccontent-mode').toggle();
+            });
+
+            // Cancel changes
+            $('.cancel-topiccontent').on('click', function () {
+                $(this).parents('tr:first').find('.edit-topiccontent-mode, .display-topiccontent-mode').toggle();
+            });
+        });
+    })
+</script>

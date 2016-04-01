@@ -1,0 +1,111 @@
+﻿@model Algarve_Destino_Seguro.Models.Topic
+@{
+    ViewBag.Title = "Detalhes";
+    var Description = "Gerir os sub-tópicos e o conteúdo associado ao tópico \"" + @Model.Title + "\" do tema \"" + @Model.ThemeTitle + "\".";
+}
+
+<div class="page-header">
+    <h1>@ViewBag.Title <br /> <small>@Description</small></h1>
+</div>
+
+<ol class="breadcrumb">
+    <li><a href="@Url.Action("Index", "Home")">Página Inicial</a></li>
+    <li><a href="@Url.Action("Index", "Theme")">Temas</a></li>
+    <li><a href="@Url.Action("Details", "Theme", new { id = @Model.ThemeTitle })">@Model.ThemeTitle</a></li>
+    <li class="active">@Model.Title</li>
+</ol>
+
+<dl class="dl-horizontal">
+    <dt>
+        @Html.DisplayNameFor(model => model.ThemeTitle)
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.ThemeTitle)
+    </dd>
+
+    <dt>
+        @Html.DisplayNameFor(model => model.Title)
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.Title)
+    </dd>
+
+    <dt>
+        @Html.DisplayNameFor(model => model.Description)
+    </dt>
+
+    <dd>
+        @if (Model.Description == null)
+        {
+            <i>(não existe descrição)</i>
+        }
+        else
+        {
+            @Html.DisplayFor(model => model.Description)
+        }
+    </dd>
+
+    <dt>
+        @Html.DisplayNameFor(model => model.Visibility)
+    </dt>
+
+    <dd>
+        @if (Model.Visibility)
+        {
+            @Html.Raw("Sim")
+        }
+        else
+        {
+            @Html.Raw("Não")
+        }
+    </dd>
+
+    <dt>
+        @Html.DisplayNameFor(model => model.Icon)
+    </dt>
+
+    <dd>
+        @if (Model.Icon == null)
+        {
+            <i>(não existe ícone)</i>
+        }
+        else
+        {
+            <a href="~/Icons/@Path.GetFileName(Model.Icon)" download><img id="uploaded-icon" src="~/Icons/@Path.GetFileName(Model.Icon)" class="img-thumbnail"></a>
+        }
+    </dd>
+</dl>
+
+<div class="panel-group" id="accordion">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <a data-toggle="collapse" data-parent="#accordion" id="accordion-subtopic" href="#webgrid-subtopics">
+                <h4 class="panel-title">Sub-Tópicos</h4>
+            </a>
+        </div>
+        <div class="panel-collapse collapse" id="webgrid-subtopics">
+            <div class="panel-body">
+                <div id="webgrid-subtopics-content">
+                    @{ Html.RenderAction("DetailsGetSubTopicsPage", new { id = Model.Title, themeTitle = Model.ThemeTitle, page = 0 }); }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <a data-toggle="collapse" data-parent="#accordion" id="accordion-topiccontents" href="#webgrid-topiccontents">
+                <h4 class="panel-title">Conteúdos</h4>
+            </a>
+        </div>
+        <div class="panel-collapse collapse" id="webgrid-topiccontents">
+            <div class="panel-body">
+                <div id="webgrid-topiccontents-content">
+                    @{ Html.RenderAction("DetailsGetTopicContentsPage", new { id = Model.Title, themeTitle = Model.ThemeTitle, page = 0 }); }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

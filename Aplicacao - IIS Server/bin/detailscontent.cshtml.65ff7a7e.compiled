@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<preserve resultType="2" virtualPath="/Views/Topic/DetailsContent.cshtml" hash="ffffffffd86d5c2d" filehash="ffffdd42492eacfc" flags="110000" assembly="App_Web_2q01zjde" type="ASP._Page_Views_Topic_DetailsContent_cshtml">
+    <filedeps>
+        <filedep name="/Views/Topic/DetailsContent.cshtml" />
+    </filedeps>
+</preserve>

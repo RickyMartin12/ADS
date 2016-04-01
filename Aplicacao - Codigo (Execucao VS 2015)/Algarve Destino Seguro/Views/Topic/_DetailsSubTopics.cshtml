@@ -1,0 +1,233 @@
+﻿@model Algarve_Destino_Seguro.Models.Topic
+@{
+    WebGrid webGridSubTopics = ViewBag.webGrid;
+}
+
+@webGridSubTopics.GetHtml(
+        tableStyle: "table table-hover",
+        columns: webGridSubTopics.Columns(
+                webGridSubTopics.Column("Title", "Sub-Tópico", format:
+                        @<text>
+                            <span id="Title">@item.Title</span>
+                        </text>
+                    ),
+                webGridSubTopics.Column("Description", "Descrição", format:
+                        @<text>
+                            @if (item.Description == null)
+                            {
+                                <span class="display-subtopic-mode" id="description"><i>(não existe descrição)</i></span>
+                            }
+                            else
+                            {
+                                <span class="display-subtopic-mode" id="description">@item.Description</span>
+                            }
+                            <input class="form-control edit-subtopic-mode" type="text" name="Description" id="Description" value="@item.Description" />
+                        </text>
+                    ),
+                webGridSubTopics.Column("Visibility", "Visibilidade", format:
+                        @<text>
+                            @if (item.Visibility)
+                            {
+                                <span class="display-subtopic-mode" id="visibility">Sim</span>
+                            }
+                            else
+                            {
+                                <span class="display-subtopic-mode" id="visibility">Não</span>
+                            }
+                            <input class="edit-subtopic-mode" type="checkbox" name="Visibility" id="Visibility" value="true" @if (item.Visibility) { @Html.Raw("checked")   } />
+                            <input class="edit-subtopic-mode" type="hidden" name="Visibility" value="false" />
+                        </text>
+                    ),
+                webGridSubTopics.Column("Icon", "Ícone", format:
+                        @<text>
+                            @if (item.Icon == null)
+                            {
+                                <span class="display-subtopic-mode" id="icon"><i>(não existe ícone)</i></span>
+                            }
+                            else
+                            {
+                                <span class="display-subtopic-mode" id="icon"><a href="~/Icons/@Path.GetFileName(item.Icon)" download>Descarregar</a></span>
+                            }
+                            <input class="edit-subtopic-mode" type="file" name="Icon" id="Icon" accept=".bmp,.gif,.jpeg,.jpg,.png" />
+                        </text>
+                    ),
+                webGridSubTopics.Column(format:
+                        @<text>
+                            <a class="display-subtopic-mode" href="@Url.Action("Details", "SubTopic", new { id = item.Title, topicTitle = Model.Title, topicThemeTitle = Model.ThemeTitle })" title="Ver Mais"><span class="glyphicon glyphicon-info-sign"></span></a>
+                            <a class="save-subtopic edit-subtopic-mode" href="javascript:void(0)" title="Guardar"><span class="glyphicon glyphicon-ok"></span></a>
+                        </text>
+                    ),
+                webGridSubTopics.Column(format:
+                        @<text>
+                            <a class="display-subtopic-mode edit-subtopic" href="javascript:void(0)" title="Editar"><span class="glyphicon glyphicon-edit"></span></a>
+                            <a class="edit-subtopic-mode cancel-subtopic" href="javascript:void(0)" title="Cancelar"><span class="glyphicon glyphicon-remove"></span></a>
+                        </text>
+                    ),
+                webGridSubTopics.Column(format:
+                        @<text>
+                            <input class="display-subtopic-mode subtopic-to-delete" type="checkbox" value="@item.Title" />
+                        </text>
+                    )
+            ),
+        mode: 0
+    )
+
+@{
+    if (webGridSubTopics.Rows.Count > 0)
+    {
+        ViewBag.WebGrid = webGridSubTopics;
+        ViewBag.JSFunction = "getSubTopicsPage";
+        Html.RenderPartial("_Pagination");
+    }
+}
+
+<script>
+    // Function for table reloading (paging, ...)
+    function getSubTopicsPage(pageNumber) {
+        $.ajax({
+            type: "GET",
+            url: "/Topic/DetailsGetSubTopicsPage/@Html.Raw(Uri.EscapeDataString(Model.Title))?themeTitle=@Html.Raw(Uri.EscapeDataString(Model.ThemeTitle))&page=" + pageNumber,
+            success: function (viewHTML) {
+                $("#webgrid-subtopics-content").html(viewHTML);
+            }
+        });
+    }
+
+    // SubTopics function closure
+    $(function () {
+        // Dynamically add "Create", "Refresh" and "Delete" buttons to the table
+        var ths = $("#webgrid-subtopics-content > table > thead > tr > th").slice(-3);
+        ths.eq(0).html(
+                '<a id="add-subtopic" href="javascript:void(0)" title="Adicionar"><span class="glyphicon glyphicon-plus"></span></a>'
+            );
+        ths.eq(1).html(
+                '<a onclick="getSubTopicsPage(@webGridSubTopics.PageIndex)" href="javascript:void(0)" title="Actualizar"><span class="glyphicon glyphicon-refresh"></span></a>'
+            );
+        ths.eq(2).html(
+                '<a id="delete-subtopic" href="javascript:void(0)" title="Apagar Seleccionados"><span class="glyphicon glyphicon-remove"></span></a>'
+            );
+
+        // Delete selected subtopics
+        $("#delete-subtopic").on('click', function () {
+            $.each($(".subtopic-to-delete:checked"), function (k, v) {
+                $.post(
+                    '/SubTopic/Delete',
+                    {
+                        "topicThemeTitle": "@Html.Raw(Model.ThemeTitle)",
+                        "topicTitle": "@Html.Raw(Model.Title)",
+                        "title": v.value
+                    },
+                    function (subTopic) {
+                        getSubTopicsPage(@webGridSubTopics.PageIndex);
+                    }, "json");
+            });
+        })
+
+        // Add subtopics
+        $("#add-subtopic").on('click', function () {
+            // Add dynamic form to the table
+            $('#webgrid-subtopics-content > table > tbody').prepend(
+                    '<tr>' +
+                        '<td><input class="form-control" type="text" name="Title" id="Title" /></td>' +
+                        '<td><input class="form-control" type="text" name="Description" id="Description" /></td>' +
+                        '<td><input type="checkbox" name="Visibility" id="Visibility" value="true" /><input type="hidden" name="Visibility" value="false" /></td>' +
+                        '<td><input type="file" name="Icon" id="Icon" accept=".bmp,.gif,.jpeg,.jpg,.png" /></td>' +
+                        '<td><a class="create-subtopic" href="javascript:void(0)"><span class="glyphicon glyphicon-ok"></a></td>' +
+                        '<td><a class="cancel-create-subtopic" href="javascript:void(0)"><span class="glyphicon glyphicon-remove"></a></td>' +
+                        '<td></td>' +
+                    '</tr>'
+                );
+
+            // Post creation to database
+            $('.create-subtopic').on('click', function () {
+                var tr = $(this).parents('tr:first');
+
+                var icon = tr.find('#Icon')[0];
+                var form = new FormData();
+                form.append("TopicThemeTitle", "@Html.Raw(Model.ThemeTitle)");
+                form.append("TopicTitle", "@Html.Raw(Model.Title)");
+                form.append('Title', tr.find('#Title').val());
+                form.append('Description', tr.find('#Description').val());
+                form.append('Visibility', (tr.find('#Visibility:checked').length > 0) ? 'true' : 'false');
+                form.append('Icon', icon.files[0], icon.value);
+
+                $.ajax({
+                    url: '/SubTopic/Create',
+                    type: 'POST',
+                    processData: false,
+                    contentType: false,
+                    dataType: 'json',
+                    data: form
+                });
+
+                tr.remove();
+            });
+
+            // Cancel subtopic creation
+            $('.cancel-create-subtopic').on('click', function () {
+                $(this).parents('tr:first').remove();
+            });
+        });
+
+        // Edit subtopic closure
+        $(function () {
+            // Hide al the edit-mode forms
+            $(".edit-subtopic-mode").hide();
+
+            // Toggle a subtopic for edition
+            $('.edit-subtopic').on('click', function () {
+                $(this).parents('tr:first').find('.edit-subtopic-mode, .display-subtopic-mode').toggle();
+            });
+
+            // Post changes to databse
+            $('.save-subtopic').on('click', function () {
+                var tr = $(this).parents('tr:first');
+
+                var icon = tr.find('#Icon')[0];
+                var form = new FormData();
+                form.append("TopicThemeTitle", "@Html.Raw(Model.ThemeTitle)");
+                form.append("TopicTitle", "@Html.Raw(Model.Title)");
+                form.append('Title', tr.find('#Title').text());
+                form.append('Description', tr.find('#Description').val());
+                form.append('Visibility', (tr.find('#Visibility:checked').length > 0) ? 'true' : 'false');
+                form.append('Icon', icon.files[0], icon.value);
+
+                $.ajax({
+                    url: '/SubTopic/Edit',
+                    type: 'POST',
+                    processData: false,
+                    contentType: false,
+                    dataType: 'json',
+                    data: form,
+                    success: function (subTopic) {
+                        if (!subTopic.Description) {
+                            tr.find('#description').html('<i>(não existe descrição)</i>');
+                        } else {
+                            tr.find('#description').text(subTopic.Description);
+                        }
+
+                        if (subTopic.Visibility) {
+                            tr.find('#visibility').text('Sim');
+                        } else {
+                            tr.find('#visibility').text('Não');
+                        }
+
+                        if (!subTopic.IconPath) {
+                            tr.find('#icon').html('<i>(não existe ícone)</i>');
+                        } else {
+                            var path = subTopic.IconPath.split('\\').pop();
+                            tr.find('#icon').html('<a href="/Icons/' + path + '" download>Descarregar</a>');
+                        }
+                    }
+                });
+
+                tr.find('.edit-subtopic-mode, .display-subtopic-mode').toggle();
+            });
+
+            // Cancel changes
+            $('.cancel-subtopic').on('click', function () {
+                $(this).parents('tr:first').find('.edit-subtopic-mode, .display-subtopic-mode').toggle();
+            });
+        });
+    })
+</script>

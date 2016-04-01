@@ -1,0 +1,46 @@
+﻿@{
+    ViewBag.Title = "Zonas Identificadas";
+    var Description = "Gerir as zonas identificadas, os seus tipos e os seus horários.";
+}
+
+<div class="page-header">
+    <h1>@ViewBag.Title <br /> <small>@Description</small></h1>
+</div>
+
+<ol class="breadcrumb">
+    <li><a href="@Url.Action("Index", "Home")">Página Inicial</a></li>
+    <li class="active">Zonas Identificadas</li>
+</ol>
+
+
+<div class="panel-group" id="accordion">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <a data-toggle="collapse" data-parent="#accordion" id="accordion-identifiedzonetype" href="#webgrid-identifiedzonetype">
+                <h4 class="panel-title">Tipos</h4>
+            </a>
+        </div>
+        <div class="panel-collapse collapse" id="webgrid-identifiedzonetype">
+            <div class="panel-body">
+                <div id="webgrid-identifiedzonetype-content">
+                    @{ Html.RenderAction("IndexGetIdentifiedZoneTypesPage", new { page = 0 }); }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <a data-toggle="collapse" data-parent="#accordion" id="accordion-identifiedzones" href="#webgrid-identifiedzones">
+                <h4 class="panel-title">Zonas</h4>
+            </a>
+        </div>
+        <div class="panel-collapse collapse" id="webgrid-identifiedzones">
+            <div class="panel-body">
+                <div id="webgrid-identifiedzones-content">
+                    @{ Html.RenderAction("IndexGetIdentifiedZonesPage", new { page = 0 }); }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

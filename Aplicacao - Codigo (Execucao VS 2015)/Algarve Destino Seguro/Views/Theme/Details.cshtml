@@ -1,0 +1,102 @@
+﻿@model Algarve_Destino_Seguro.Models.Theme
+@{
+    ViewBag.Title = "Detalhes";
+    var Description = "Gerir os tópicos e o conteúdo associado ao tema \"" + @Model.Title + "\".";
+}
+
+<div class="page-header">
+    <h1>@ViewBag.Title <br /> <small>@Description</small></h1>
+</div>
+
+<ol class="breadcrumb">
+    <li><a href="@Url.Action("Index", "Home")">Página Inicial</a></li>
+    <li><a href="@Url.Action("Index", "Theme")">Temas</a></li>
+    <li class="active">@Model.Title</li>
+</ol>
+
+<dl class="dl-horizontal">
+    <dt>
+        @Html.DisplayNameFor(model => model.Title)
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.Title)
+    </dd>
+
+    <dt>
+        @Html.DisplayNameFor(model => model.Description)
+    </dt>
+
+    <dd>
+        @if (Model.Description == null)
+        {
+            <i>(não existe descrição)</i>
+        }
+        else
+        {
+            @Html.DisplayFor(model => model.Description)
+        }
+    </dd>
+
+    <dt>
+        @Html.DisplayNameFor(model => model.Visibility)
+    </dt>
+
+    <dd>
+        @if (Model.Visibility)
+        {
+            @Html.Raw("Sim")
+        }
+        else
+        {
+            @Html.Raw("Não")
+        }
+    </dd>
+
+    <dt>
+        @Html.DisplayNameFor(model => model.Icon)
+    </dt>
+
+    <dd>
+        @if (Model.Icon == null)
+        {
+            <i>(não existe ícone)</i>
+        }
+        else
+        {
+            <a href="~/Icons/@Path.GetFileName(Model.Icon)" download><img id="uploaded-icon" src="~/Icons/@Path.GetFileName(Model.Icon)" class="img-thumbnail"></a>
+        }
+    </dd>
+</dl>
+
+<div class="panel-group" id="accordion">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <a data-toggle="collapse" data-parent="#accordion" id="accordion-topic" href="#webgrid-topics">
+                <h4 class="panel-title">Tópicos</h4>
+            </a>
+        </div>
+        <div class="panel-collapse collapse" id="webgrid-topics">
+            <div class="panel-body">
+                <div id="webgrid-topics-content">
+                    @{ Html.RenderAction("DetailsGetTopicsPage", new { id = Model.Title, page = 0 }); }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <a data-toggle="collapse" data-parent="#accordion" id="accordion-themecontents" href="#webgrid-themecontents">
+                <h4 class="panel-title">Conteúdos</h4>
+            </a>
+        </div>
+        <div class="panel-collapse collapse" id="webgrid-themecontents">
+            <div class="panel-body">
+                <div id="webgrid-themecontents-content">
+                    @{ Html.RenderAction("DetailsGetThemeContentsPage", new { id = Model.Title, page = 0 }); }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

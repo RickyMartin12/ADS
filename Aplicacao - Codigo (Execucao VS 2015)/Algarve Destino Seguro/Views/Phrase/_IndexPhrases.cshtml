@@ -1,0 +1,211 @@
+﻿@using Algarve_Destino_Seguro.Models;
+@{
+    WebGrid webGrid = ViewBag.webGrid;
+}
+
+@{
+    var Phrases = "";
+    Phrases += @Html.Raw("<option value=\"\"><i>(nenhum)</i></option>");
+}
+
+@foreach (var phrase in DBAccessor.GetPhrases())
+{
+    Phrases += @Html.Raw("<option value=\"" + @Html.Raw(phrase.Code) + "\">" + @Html.Raw(phrase.Code) + "</option>");
+}
+
+@{
+    var Languages = "";
+    foreach (var language in DBAccessor.GetLanguages())
+    {
+        Languages += @Html.Raw("<option value=\"" + @Html.Raw(language.Code) + "\">" + @Html.Raw(language.Code) + "</option>");
+    }
+}
+
+@webGrid.GetHtml(
+        tableStyle: "table table-hover",
+        columns: webGrid.Columns(
+                webGrid.Column("Code", "Código", format:
+                        @<text>
+                            <span id="Code">@item.Code</span>
+                        </text>
+                    ),
+                webGrid.Column("LanguageCode", "Idioma", format:
+                        @<text>
+                            <span class="display-mode" id="languageCode">@item.LanguageCode</span>
+                            <select class="form-control edit-mode" name="LanguageCode" id="LanguageCode">@Languages</select>
+                        </text>
+                    ),
+                webGrid.Column("PhraseCode", "Ascendente", format:
+                        @<text>
+                            <span class="display-mode" id="languageCode">@item.LanguageCode</span>
+                            <select class="form-control edit-mode" name="PhraseCode" id="PhraseCode">@Phrases</select>
+                        </text>
+                    ),
+                webGrid.Column("Content", "Conteúdo", format:
+                        @<text>
+                            <span class="display-mode" id="content">@item.Content</span>
+                            <input class="form-control edit-mode" type="text" name="Content" id="Content" value="@item.Content" />
+                        </text>
+                    ),
+                webGrid.Column(format:
+                        @<text>
+                            <a class="save-phrase edit-mode" href="javascript:void(0)" title="Guardar"><span class="glyphicon glyphicon-ok"></span></a>
+                        </text>
+                    ),
+                webGrid.Column(format:
+                        @<text>
+                            <a class="display-mode edit-phrase" href="javascript:void(0)" title="Editar"><span class="glyphicon glyphicon-edit"></span></a>
+                            <a class="edit-mode cancel-phrase" href="javascript:void(0)" title="Cancelar"><span class="glyphicon glyphicon-remove"></span></a>
+                        </text>
+                    ),
+                webGrid.Column(format:
+                        @<text>
+                            <input class="display-mode language-to-delete" type="checkbox" value="@item.Code" />
+                        </text>
+                    )
+            ),
+        mode: 0
+    )
+
+@{
+    if (webGrid.Rows.Count > 0)
+    {
+        ViewBag.WebGrid = webGrid;
+        ViewBag.JSFunction = "getPhrasesPage";
+        Html.RenderPartial("_Pagination");
+    }
+}
+
+<script>
+    // Function for table reloading (paging, ...)
+    function getPhrasesPage(pageNumber) {
+        $.ajax({
+            type: "GET",
+            url: "/Phrases/Index?page=" + pageNumber,
+            success: function (viewHTML) {
+                $("#webgrid-content").html(viewHTML);
+            }
+        });
+    }
+
+    // Phrases function closure
+    $(function () {
+        // Dynamically add "Create", "Refresh" and "Delete" buttons to the table
+        var ths = $("#webgrid-content > table > thead > tr > th").slice(-3);
+        ths.eq(0).html(
+                '<a id="add-phrase" href="javascript:void(0)" title="Adicionar"><span class="glyphicon glyphicon-plus"></span></a>'
+            );
+        ths.eq(1).html(
+                '<a onclick="getPhrasesPage(@webGrid.PageIndex)" href="javascript:void(0)" title="Actualizar"><span class="glyphicon glyphicon-refresh"></span></a>'
+            );
+        ths.eq(2).html(
+                '<a id="delete-phrase" href="javascript:void(0)" title="Apagar Seleccionados"><span class="glyphicon glyphicon-remove"></span></a>'
+            );
+
+        // Delete selected phrases
+        $("#delete-phrase").on('click', function () {
+            $.each($(".phrase-to-delete:checked"), function (k, v) {
+                $.post(
+                    '/Phrase/Delete',
+                    {
+                        "code": v.value
+                    },
+                    function (phrase) {
+                        getPhrasesPage(@webGrid.PageIndex);
+                    }, "json");
+            });
+        })
+
+        // Add phrases
+        $("#add-phrase").on('click', function () {
+            // Add dynamic form to the table
+            $('#webgrid-content > table > tbody').prepend(
+                    '<tr>' +
+                        '<td><input class="form-control" type="text" name="Code" id="Code" /></td>' +
+                        '<td><select class="form-control" name="LanguageCode" id="LanguageCode">@Languages</select></td>' +
+                        '<td><select class="form-control" name="PhraseCode" id="PhraseCode">@Phrases</select></td>' +
+                        '<td><input class="form-control" type="text" name="Content" id="Content" /></td>' +
+                        '<td><a class="create-phrase" href="javascript:void(0)"><span class="glyphicon glyphicon-ok"></a></td>' +
+                        '<td><a class="cancel-create-phrase" href="javascript:void(0)"><span class="glyphicon glyphicon-remove"></a></td>' +
+                        '<td></td>' +
+                    '</tr>'
+                );
+
+            // Post creation to database
+            $('.create-phrase').on('click', function () {
+                var tr = $(this).parents('tr:first');
+
+                var form = new FormData();
+                form.append('Code', tr.find('#Code').val());
+                form.append('LanguageCode', tr.find('#LanguageCode').val());
+                form.append('PhraseCode', tr.find('#PhraseCode').val());
+                form.append('Content', tr.find('#Content').val());
+
+                $.ajax({
+                    url: '/Phrase/Create',
+                    type: 'POST',
+                    processData: false,
+                    contentType: false,
+                    dataType: 'json',
+                    data: form
+                });
+
+                tr.remove();
+            });
+
+            // Cancel language creation
+            $('.cancel-create-phrase').on('click', function () {
+                $(this).parents('tr:first').remove();
+            });
+        });
+
+        // Edit phrase closure
+        $(function () {
+            // Hide al the edit-mode forms
+            $(".edit-mode").hide();
+
+            // Toggle a phrase for edition
+            $('.edit-phrase').on('click', function () {
+                $(this).parents('tr:first').find('.edit-mode, .display-mode').toggle();
+            });
+
+            // Post changes to databse
+            $('.save-phrase').on('click', function () {
+                var tr = $(this).parents('tr:first');
+
+                var form = new FormData();
+                form.append('Code', tr.find('#Code').text());
+                form.append('LanguageCode', tr.find('#LanguageCode').val());
+                form.append('PhraseCode', tr.find('#PhraseCode').val());
+                form.append('Content', tr.find('#Content').val());
+
+                $.ajax({
+                    url: '/Phrase/Edit',
+                    type: 'POST',
+                    processData: false,
+                    contentType: false,
+                    dataType: 'json',
+                    data: form,
+                    success: function (phrase) {
+                        tr.find('#languageCode').text(phrase.LanguageCode);
+
+                        if (!phrase.PhraseCode) {
+                            tr.find('#phraseCode').html('<i>(nenhum)</i>');
+                        } else {
+                            tr.find('#phraseCode').text(phrase.PhraseCode);
+                        }
+
+                        tr.find('#content').text(phrase.Content);
+                    }
+                });
+
+                tr.find('.edit-mode, .display-mode').toggle();
+            });
+
+            // Cancel changes
+            $('.cancel-phrase').on('click', function () {
+                $(this).parents('tr:first').find('.edit-mode, .display-mode').toggle();
+            });
+        });
+    })
+</script>

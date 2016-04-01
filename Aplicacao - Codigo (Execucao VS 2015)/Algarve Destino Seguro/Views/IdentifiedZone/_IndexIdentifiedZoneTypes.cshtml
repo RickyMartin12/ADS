@@ -1,0 +1,166 @@
+﻿@{
+    WebGrid webGridIdentifiedZoneTypes = ViewBag.webGrid;
+}
+
+@webGridIdentifiedZoneTypes.GetHtml(
+        tableStyle: "table table-hover",
+        columns: webGridIdentifiedZoneTypes.Columns(
+                webGridIdentifiedZoneTypes.Column("Name", "Nome", format:
+                        @<text>
+                            <span id="Name">@item.Name</span>
+                        </text>
+                    ),
+                webGridIdentifiedZoneTypes.Column("Notification", "Notificação", format:
+                        @<text>
+                            <span class="display-identifiedzonetype-mode" id="notification">@item.Notification</span>
+                            <input class="form-control edit-identifiedzonetype-mode" type="text" name="Notification" id="Notification" value="@item.Notification" />
+                        </text>
+                    ),
+                webGridIdentifiedZoneTypes.Column(format:
+                        @<text>
+                            <a class="save-identifiedzonetype edit-identifiedzonetype-mode" href="javascript:void(0)" title="Guardar"><span class="glyphicon glyphicon-ok"></span></a>
+                        </text>
+                    ),
+                webGridIdentifiedZoneTypes.Column(format:
+                        @<text>
+                            <a class="display-identifiedzonetype-mode edit-identifiedzonetype" href="javascript:void(0)" title="Editar"><span class="glyphicon glyphicon-edit"></span></a>
+                            <a class="edit-identifiedzonetype-mode cancel-identifiedzonetype" href="javascript:void(0)" title="Cancelar"><span class="glyphicon glyphicon-remove"></span></a>
+                        </text>
+                    ),
+                webGridIdentifiedZoneTypes.Column(format:
+                        @<text>
+                            <input class="display-identifiedzonetype-mode identifiedzonetype-to-delete" type="checkbox" value="@item.Name" />
+                        </text>
+                    )
+            ),
+        mode: 0
+    )
+
+@{
+    if (webGridIdentifiedZoneTypes.Rows.Count > 0)
+    {
+        ViewBag.WebGrid = webGridIdentifiedZoneTypes;
+        ViewBag.JSFunction = "getIdentifiedZoneTypesPage";
+        Html.RenderPartial("_Pagination");
+    }
+}
+
+<script>
+    // Function for table reloading (paging, ...)
+    function getIdentifiedZoneTypesPage(pageNumber) {
+        $.ajax({
+            type: "GET",
+            url: "/IdentifiedZone/IndexGetIdentifiedZoneTypesPage?page=" + pageNumber,
+            success: function (viewHTML) {
+                $("#webgrid-identifiedzonetype-content").html(viewHTML);
+            }
+        });
+    }
+
+    // Identified Zone Type function closure
+    $(function () {
+        // Dynamically add "Create", "Refresh" and "Delete" buttons to the table
+        var ths = $("#webgrid-identifiedzonetype-content > table > thead > tr > th").slice(-3);
+        ths.eq(0).html(
+                '<a id="add-identifiedzonetype" href="javascript:void(0)" title="Adicionar"><span class="glyphicon glyphicon-plus"></span></a>'
+            );
+        ths.eq(1).html(
+                '<a onclick="getIdentifiedZoneTypesPage(@webGridIdentifiedZoneTypes.PageIndex)" href="javascript:void(0)" title="Actualizar"><span class="glyphicon glyphicon-refresh"></span></a>'
+            );
+        ths.eq(2).html(
+                '<a id="delete-identifiedzonetype" href="javascript:void(0)" title="Apagar Seleccionados"><span class="glyphicon glyphicon-remove"></span></a>'
+            );
+
+        // Delete selected identified zone type
+        $("#delete-identifiedzonetype").on('click', function () {
+            $.each($(".identifiedzonetype-to-delete:checked"), function (k, v) {
+                $.post(
+                    '/IdentifiedZone/DeleteType',
+                    {
+                        "Name": v.value
+                    },
+                    function (identifiedZoneType) {
+                        getIdentifiedZoneTypesPage(@webGridIdentifiedZoneTypes.PageIndex);
+                    }, "json");
+            });
+        })
+
+        // Add identified zone type
+        $("#add-identifiedzonetype").on('click', function () {
+            // Add dynamic form to the table
+            $('#webgrid-identifiedzonetype-content > table > tbody').prepend(
+                    '<tr>' +
+                        '<td><input class="form-control" type="text" name="Name" id="Name" /></td>' +
+                        '<td><input class="form-control" type="text" name="Notification" id="Notification" /></td>' +
+                        '<td><a class="create-identifiedzonetype" href="javascript:void(0)"><span class="glyphicon glyphicon-ok"></a></td>' +
+                        '<td><a class="cancel-create-identifiedzonetype" href="javascript:void(0)"><span class="glyphicon glyphicon-remove"></a></td>' +
+                        '<td></td>' +
+                    '</tr>'
+                );
+
+            // Post creation to database
+            $('.create-identifiedzonetype').on('click', function () {
+                var tr = $(this).parents('tr:first');
+
+                var form = new FormData();
+                form.append('Name', tr.find('#Name').val());
+                form.append('Notification', tr.find('#Notification').val());
+                
+                $.ajax({
+                    url: '/IdentifiedZone/CreateType',
+                    type: 'POST',
+                    processData: false,
+                    contentType: false,
+                    dataType: 'json',
+                    data: form
+                });
+
+                tr.remove();
+            });
+
+            // Cancel identified zone type creation
+            $('.cancel-create-identifiedzonetype').on('click', function () {
+                $(this).parents('tr:first').remove();
+            });
+        });
+
+        // Edit identified zone type closure
+        $(function () {
+            // Hide al the edit-mode forms
+            $(".edit-identifiedzonetype-mode").hide();
+
+            // Toggle a identified zone type for edition
+            $('.edit-identifiedzonetype').on('click', function () {
+                $(this).parents('tr:first').find('.edit-identifiedzonetype-mode, .display-identifiedzonetype-mode').toggle();
+            });
+
+            // Post changes to databse
+            $('.save-identifiedzonetype').on('click', function () {
+                var tr = $(this).parents('tr:first');
+
+                var form = new FormData();
+                form.append('Name', tr.find('#Name').text());
+                form.append('Notification', tr.find('#Notification').val());
+                
+                $.ajax({
+                    url: '/IdentifiedZone/EditType',
+                    type: 'POST',
+                    dataType: 'json',
+                    processData: false,
+                    contentType: false,
+                    data: form,
+                    success: function (identifiedZoneType) {
+                        tr.find('#notification').text(identifiedZoneType.Notification);
+                    }
+                });
+
+                tr.find('.edit-identifiedzonetype-mode, .display-identifiedzonetype-mode').toggle();
+            });
+
+            // Cancel changes
+            $('.cancel-identifiedzonetype').on('click', function () {
+                $(this).parents('tr:first').find('.edit-identifiedzonetype-mode, .display-identifiedzonetype-mode').toggle();
+            });
+        });
+    })
+</script>

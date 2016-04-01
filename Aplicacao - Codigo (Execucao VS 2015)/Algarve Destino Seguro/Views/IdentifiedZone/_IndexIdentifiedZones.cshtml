@@ -1,0 +1,187 @@
+﻿@{
+    WebGrid webGridIdentifiedZones = ViewBag.webGrid;
+}
+
+@webGridIdentifiedZones.GetHtml(
+        tableStyle: "table table-hover",
+        columns: webGridIdentifiedZones.Columns(
+                webGridIdentifiedZones.Column("Name", "Nome", format:
+                        @<text>
+                            <span id="Name">@item.Name</span>
+                        </text>
+                    ),
+                webGridIdentifiedZones.Column("Radius", "Raio", format:
+                        @<text>
+                            <span class="display-identifiedzone-mode" id="radius">@item.Radius</span>
+                            <input class="form-control edit-identifiedzone-mode" type="number" min="0" name="Radius" id="Radius" value="@item.Radius" />
+                        </text>
+                    ),
+                webGridIdentifiedZones.Column("VertexLatitude", "Latitude", format:
+                        @<text>
+                            <span class="display-identifiedzone-mode" id="vertexLatitude">@item.VertexLatitude</span>
+                            <input class="form-control edit-identifiedzone-mode" type="number" name="VertexLatitude" id="VertexLatitude" value="@item.VertexLatitude" />
+                        </text>
+                    ),
+                webGridIdentifiedZones.Column("VertexLongitude", "Longitude", format:
+                        @<text>
+                            <span class="display-identifiedzone-mode" id="vertexLongitude">@item.VertexLongitude</span>
+                            <input class="form-control edit-identifiedzone-mode" type="number" name="VertexLongitude" id="VertexLongitude" value="@item.VertexLongitude" />
+                        </text>
+                    ),
+                webGridIdentifiedZones.Column(format:
+                        @<text>
+                            <a class="display-identifiedzone-mode" href="@Url.Action("Details", "IdentifiedZone", new { id = item.Name})" title="Ver Mais"><span class="glyphicon glyphicon-info-sign"></span></a>
+                            <a class="save-identifiedzone edit-identifiedzone-mode" href="javascript:void(0)" title="Guardar"><span class="glyphicon glyphicon-ok"></span></a>
+                        </text>
+                    ),
+                webGridIdentifiedZones.Column(format:
+                        @<text>
+                            <a class="display-identifiedzone-mode edit-identifiedzone" href="javascript:void(0)" title="Editar"><span class="glyphicon glyphicon-edit"></span></a>
+                            <a class="edit-identifiedzone-mode cancel-identifiedzone" href="javascript:void(0)" title="Cancelar"><span class="glyphicon glyphicon-remove"></span></a>
+                        </text>
+                    ),
+                webGridIdentifiedZones.Column(format:
+                        @<text>
+                            <input class="display-identifiedzone-mode identifiedzone-to-delete" type="checkbox" value="@item.Name" />
+                        </text>
+                    )
+            ),
+        mode: 0
+    )
+
+@{
+    if (webGridIdentifiedZones.Rows.Count > 0)
+    {
+        ViewBag.WebGrid = webGridIdentifiedZones;
+        ViewBag.JSFunction = "getIdentifiedZonesPage";
+        Html.RenderPartial("_Pagination");
+    }
+}
+
+<script>
+    // Function for table reloading (paging, ...)
+    function getIdentifiedZonesPage(pageNumber) {
+        $.ajax({
+            type: "GET",
+            url: "/IdentifiedZone/IndexGetIdentifiedZonesPage?page=" + pageNumber,
+            success: function (viewHTML) {
+                $("#webgrid-identifiedzones-content").html(viewHTML);
+            }
+        });
+    }
+
+    // Identified Zone function closure
+    $(function () {
+        // Dynamically add "Create", "Refresh" and "Delete" buttons to the table
+        var ths = $("#webgrid-identifiedzones-content > table > thead > tr > th").slice(-3);
+        ths.eq(0).html(
+                '<a id="add-identifiedzone" href="javascript:void(0)" title="Adicionar"><span class="glyphicon glyphicon-plus"></span></a>'
+            );
+        ths.eq(1).html(
+                '<a onclick="getIdentifiedZonesPage(@webGridIdentifiedZones.PageIndex)" href="javascript:void(0)" title="Actualizar"><span class="glyphicon glyphicon-refresh"></span></a>'
+            );
+        ths.eq(2).html(
+                '<a id="delete-identifiedzone" href="javascript:void(0)" title="Apagar Seleccionados"><span class="glyphicon glyphicon-remove"></span></a>'
+            );
+
+        // Delete selected identified zone type
+        $("#delete-identifiedzone").on('click', function () {
+            $.each($(".identifiedzone-to-delete:checked"), function (k, v) {
+                $.post(
+                    '/IdentifiedZone/Delete',
+                    {
+                        "Name": v.value
+                    },
+                    function (identifiedZone) {
+                        getIdentifiedZonesPage(@webGridIdentifiedZones.PageIndex);
+                    }, "json");
+            });
+        })
+
+        // Add identified zone
+        $("#add-identifiedzone").on('click', function () {
+            // Add dynamic form to the table
+            $('#webgrid-identifiedzones-content > table > tbody').prepend(
+                    '<tr>' +
+                        '<td><input class="form-control" type="text" name="Name" id="Name" /></td>' +
+                        '<td><input class="form-control" type="number" min="0" name="Radius" id="Radius" /></td>' +
+                        '<td><input class="form-control" type="number" name="VertexLatitude" id="VertexLatitude" /></td>' +
+                        '<td><input class="form-control" type="number" name="VertexLongitude" id="VertexLongitude" /></td>' +
+                        '<td><a class="create-identifiedzone" href="javascript:void(0)"><span class="glyphicon glyphicon-ok"></a></td>' +
+                        '<td><a class="cancel-create-identifiedzone" href="javascript:void(0)"><span class="glyphicon glyphicon-remove"></a></td>' +
+                        '<td></td>' +
+                    '</tr>'
+                );
+
+            // Post creation to database
+            $('.create-identifiedzone').on('click', function () {
+                var tr = $(this).parents('tr:first');
+
+                var form = new FormData();
+                form.append('Name', tr.find('#Name').val());
+                form.append('Radius', tr.find('#Radius').val());
+                form.append('VertexLatitude', tr.find('#VertexLatitude').val());
+                form.append('VertexLongitude', tr.find('#VertexLongitude').val());
+
+                $.ajax({
+                    url: '/IdentifiedZone/Create',
+                    type: 'POST',
+                    processData: false,
+                    contentType: false,
+                    dataType: 'json',
+                    data: form
+                });
+
+                tr.remove();
+            });
+
+            // Cancel identified zone type creation
+            $('.cancel-create-identifiedzone').on('click', function () {
+                $(this).parents('tr:first').remove();
+            });
+        });
+
+        // Edit identified zone closure
+        $(function () {
+            // Hide al the edit-mode forms
+            $(".edit-identifiedzone-mode").hide();
+
+            // Toggle a identified zone type for edition
+            $('.edit-identifiedzone').on('click', function () {
+                $(this).parents('tr:first').find('.edit-identifiedzone-mode, .display-identifiedzone-mode').toggle();
+            });
+
+            // Post changes to databse
+            $('.save-identifiedzone').on('click', function () {
+                var tr = $(this).parents('tr:first');
+
+                var form = new FormData();
+                form.append('Name', tr.find('#Name').text());
+                form.append('Radius', tr.find('#Radius').val());
+                form.append('VertexLatitude', tr.find('#VertexLatitude').val());
+                form.append('VertexLongitude', tr.find('#VertexLongitude').val());
+
+                $.ajax({
+                    url: '/IdentifiedZone/Edit',
+                    type: 'POST',
+                    dataType: 'json',
+                    processData: false,
+                    contentType: false,
+                    data: form,
+                    success: function (identifiedZone) {
+                        tr.find('#radius').text(identifiedZone.Radius);
+                        tr.find('#vertexLatitude').text(identifiedZone.VertexLatitude);
+                        tr.find('#vertexLongitude').text(identifiedZone.VertexLongitude);
+                    }
+                });
+
+                tr.find('.edit-identifiedzone-mode, .display-identifiedzone-mode').toggle();
+            });
+
+            // Cancel changes
+            $('.cancel-identifiedzone').on('click', function () {
+                $(this).parents('tr:first').find('.edit-identifiedzone-mode, .display-identifiedzone-mode').toggle();
+            });
+        });
+    })
+</script>

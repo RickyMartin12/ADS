@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="7982290d073a494495329ebc622cc459" Name="Diagram1" ZoomLevel="93" >
+        <EntityTypeShape EntityType="ADS.Models.Theme" Width="1.5" PointX="0.5" PointY="0.5" FillColor="Maroon" />
+        <EntityTypeShape EntityType="ADS.Models.Topic" Width="1.5" PointX="0.5" PointY="3.625" FillColor="Maroon" />
+        <AssociationConnector Association="ADS.Models.TopicTheme" />
+        <EntityTypeShape EntityType="ADS.Models.SubTopic" Width="1.5" PointX="0.5" PointY="6.75" FillColor="Maroon" />
+        <AssociationConnector Association="ADS.Models.SubTopicTopic" />
+        <EntityTypeShape EntityType="ADS.Models.Language" Width="1.5" PointX="6.25" PointY="3.75" FillColor="128, 64, 0" />
+        <EntityTypeShape EntityType="ADS.Models.ThemeContent" Width="1.5" PointX="3" PointY="0.5" FillColor="Maroon" />
+        <AssociationConnector Association="ADS.Models.ThemeContentTheme" />
+        <AssociationConnector Association="ADS.Models.ThemeContentLanguage" />
+        <EntityTypeShape EntityType="ADS.Models.TopicContent" Width="1.5" PointX="3" PointY="3.625" FillColor="Maroon" />
+        <AssociationConnector Association="ADS.Models.TopicContentTopic" />
+        <AssociationConnector Association="ADS.Models.TopicContentLanguage" />
+        <EntityTypeShape EntityType="ADS.Models.SubTopicContent" Width="2" PointX="2.75" PointY="6.75" FillColor="Maroon" />
+        <AssociationConnector Association="ADS.Models.SubTopicContentSubTopic" />
+        <AssociationConnector Association="ADS.Models.SubTopicContentLanguage" />
+        <EntityTypeShape EntityType="ADS.Models.Phrase" Width="1.5" PointX="6.875" PointY="0.875" FillColor="Olive" />
+        <AssociationConnector Association="ADS.Models.PhraseLanguage" />
+        <AssociationConnector Association="ADS.Models.PhrasePhrase" />
+        <EntityTypeShape EntityType="ADS.Models.EntityType" Width="1.5" PointX="12.125" PointY="3.75" FillColor="Green" />
+        <EntityTypeShape EntityType="ADS.Models.EntityTypeLanguage" Width="1.75" PointX="8.75" PointY="3.5" FillColor="Green" />
+        <AssociationConnector Association="ADS.Models.EntityTypeLanguageLanguage" />
+        <AssociationConnector Association="ADS.Models.EntityTypeLanguageEntityType" />
+        <EntityTypeShape EntityType="ADS.Models.Vertex" Width="1.5" PointX="12.125" PointY="11" FillColor="Teal" />
+        <EntityTypeShape EntityType="ADS.Models.Entity" Width="1.5" PointX="12.125" PointY="6.875" FillColor="Green" />
+        <EntityTypeShape EntityType="ADS.Models.Country" Width="1.5" PointX="8.875" PointY="8.625" FillColor="Navy" />
+        <EntityTypeShape EntityType="ADS.Models.CountryLanguage" Width="1.625" PointX="6.25" PointY="8.5" FillColor="Navy" />
+        <AssociationConnector Association="ADS.Models.CountryLanguageLanguage" />
+        <AssociationConnector Association="ADS.Models.CountryLanguageCountry" />
+        <AssociationConnector Association="ADS.Models.EntityCountry" />
+        <AssociationConnector Association="ADS.Models.EntityEntityType" />
+        <AssociationConnector Association="ADS.Models.EntityVertex" />
+        <EntityTypeShape EntityType="ADS.Models.EntityLanguage" Width="1.5" PointX="8.875" PointY="5.875" FillColor="Green" />
+        <AssociationConnector Association="ADS.Models.EntityLanguageLanguage" />
+        <AssociationConnector Association="ADS.Models.EntityLanguageEntity" />
+        <EntityTypeShape EntityType="ADS.Models.IdentifiedZone" Width="1.5" PointX="9.25" PointY="11.125" FillColor="Purple" />
+        <AssociationConnector Association="ADS.Models.IdentifiedZoneVertex" />
+        <EntityTypeShape EntityType="ADS.Models.IdentifiedZoneType" Width="1.75" PointX="3.5" PointY="11.25" FillColor="Purple" />
+        <EntityTypeShape EntityType="ADS.Models.IdentifiedZoneSchedule" Width="2" PointX="6.25" PointY="11.125" FillColor="Purple" />
+        <AssociationConnector Association="ADS.Models.IdentifiedZoneScheduleIdentifiedZoneType" />
+        <AssociationConnector Association="ADS.Models.IdentifiedZoneScheduleIdentifiedZone" />
+        <EntityTypeShape EntityType="ADS.Models.CommunicationType" Width="1.5" PointX="9.375" PointY="14.875" FillColor="Silver" />
+        <EntityTypeShape EntityType="ADS.Models.CommunicationState" Width="1.5" PointX="3.75" PointY="14.75" FillColor="Silver" />
+        <EntityTypeShape EntityType="ADS.Models.Communication" Width="2.125" PointX="6.125" PointY="14" FillColor="Silver" />
+        <AssociationConnector Association="ADS.Models.CommunicationCommunicationType" />
+        <AssociationConnector Association="ADS.Models.CommunicationCommunicationState" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

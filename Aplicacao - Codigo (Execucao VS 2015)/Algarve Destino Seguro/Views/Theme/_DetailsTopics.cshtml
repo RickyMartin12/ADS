@@ -1,0 +1,230 @@
+﻿@model Algarve_Destino_Seguro.Models.Theme
+@{
+    WebGrid webGridTopics = ViewBag.webGrid;
+}
+
+@webGridTopics.GetHtml(
+        tableStyle: "table table-hover",
+        columns: webGridTopics.Columns(
+                webGridTopics.Column("Title", "Tópico", format:
+                        @<text>
+                            <span id="Title">@item.Title</span>
+                        </text>
+                    ),
+                webGridTopics.Column("Description", "Descrição", format:
+                        @<text>
+                            @if (item.Description == null)
+                            {
+                                <span class="display-topic-mode" id="description"><i>(não existe descrição)</i></span>
+                            }
+                            else
+                            {
+                                <span class="display-topic-mode" id="description">@item.Description</span>
+                            }
+                            <input class="form-control edit-topic-mode"  type="text" name="Description" id="Description" value="@item.Description" />
+                        </text>
+                    ),
+                webGridTopics.Column("Visibility", "Visibilidade", format:
+                        @<text>
+                            @if (item.Visibility)
+                            {
+                                <span class="display-topic-mode" id="visibility">Sim</span>
+                            }
+                            else
+                            {
+                                <span class="display-topic-mode" id="visibility">Não</span>
+                            }
+                            <input class="edit-topic-mode" type="checkbox" name="Visibility" id="Visibility" value="true" @if (item.Visibility) { @Html.Raw("checked") }/>
+                            <input class="edit-topic-mode" type="hidden" name="Visibility" value="false" />
+                        </text>
+                    ),
+                webGridTopics.Column("Icon", "Ícone", format:
+                        @<text>
+                            @if (item.Icon == null)
+                            {
+                                <span class="display-topic-mode" id="icon"><i>(não existe ícone)</i></span>
+                            }
+                            else
+                            {
+                                <span class="display-topic-mode" id="icon"><a href="~/Icons/@Path.GetFileName(item.Icon)" download>Descarregar</a></span>
+                            }
+                            <input class="edit-topic-mode" type="file" name="Icon" id="Icon" accept=".bmp,.gif,.jpeg,.jpg,.png" />
+                        </text>
+                    ),
+                webGridTopics.Column(format:
+                        @<text>
+                            <a class="display-topic-mode" href="@Url.Action("Details", "Topic", new { id = item.Title, themeTitle = Model.Title })" title="Ver Mais"><span class="glyphicon glyphicon-info-sign"></span></a>
+                            <a class="save-topic edit-topic-mode" href="javascript:void(0)" title="Guardar"><span class="glyphicon glyphicon-ok"></span></a>
+                        </text>
+                    ),
+                webGridTopics.Column(format:
+                        @<text>
+                            <a class="display-topic-mode edit-topic" href="javascript:void(0)" title="Editar"><span class="glyphicon glyphicon-edit"></span></a>
+                            <a class="edit-topic-mode cancel-topic" href="javascript:void(0)" title="Cancelar"><span class="glyphicon glyphicon-remove"></span></a>
+                        </text>
+                    ),
+                webGridTopics.Column(format:
+                        @<text>
+                            <input class="display-topic-mode topic-to-delete" type="checkbox" value="@item.Title"/>
+                        </text>
+                    )
+            ),
+        mode: 0
+    )
+
+@{
+    if (webGridTopics.Rows.Count > 0)
+    {
+        ViewBag.WebGrid = webGridTopics;
+        ViewBag.JSFunction = "getTopicsPage";
+        Html.RenderPartial("_Pagination");
+    }
+}
+
+<script>
+    // Function for table reloading (paging, ...)
+    function getTopicsPage(pageNumber) {
+        $.ajax({
+            type: "GET",
+            url: "/Theme/DetailsGetTopicsPage/@Html.Raw(Uri.EscapeDataString(Model.Title))?page=" + pageNumber,
+            success: function (viewHTML) {
+                $("#webgrid-topics-content").html(viewHTML);
+            }
+        });
+    }
+
+    // Topics function closure
+    $(function () {
+        // Dynamically add "Create", "Refresh" and "Delete" buttons to the table
+        var ths = $("#webgrid-topics-content > table > thead > tr > th").slice(-3);
+        ths.eq(0).html(
+                '<a id="add-topic" href="javascript:void(0)" title="Adicionar"><span class="glyphicon glyphicon-plus"></span></a>'
+            );
+        ths.eq(1).html(
+                '<a onclick="getTopicsPage(@webGridTopics.PageIndex)" href="javascript:void(0)" title="Actualizar"><span class="glyphicon glyphicon-refresh"></span></a>'
+            );
+        ths.eq(2).html(
+                '<a id="delete-topic" href="javascript:void(0)" title="Apagar Seleccionados"><span class="glyphicon glyphicon-remove"></span></a>'
+            );
+
+        // Delete selected topics
+        $("#delete-topic").on('click', function () {
+            $.each($(".topic-to-delete:checked"), function (k, v) {
+                $.post(
+                    '/Topic/Delete',
+                    {
+                        "themeTitle": "@Html.Raw(Model.Title)",
+                        "title": v.value
+                    },
+                    function (topic) {
+                        getTopicsPage(@webGridTopics.PageIndex);
+                    }, "json");
+            });
+        })
+
+        // Add topics
+        $("#add-topic").on('click', function () {
+            // Add dynamic form to the table
+            $('#webgrid-topics-content > table > tbody').prepend(
+                    '<tr>' +
+                        '<td><input class="form-control" type="text" name="Title" id="Title" /></td>' +
+                        '<td><input class="form-control" type="text" name="Description" id="Description" /></td>' +
+                        '<td><input type="checkbox" name="Visibility" id="Visibility" value="true" /><input type="hidden" name="Visibility" value="false" /></td>' +
+                        '<td><input type="file" name="Icon" id="Icon" accept=".bmp,.gif,.jpeg,.jpg,.png" /></td>' +
+                        '<td><a class="create-topic" href="javascript:void(0)"><span class="glyphicon glyphicon-ok"></a></td>' +
+                        '<td><a class="cancel-create-topic" href="javascript:void(0)"><span class="glyphicon glyphicon-remove"></a></td>' +
+                        '<td></td>' +
+                    '</tr>'
+                );
+
+            // Post creation to database
+            $('.create-topic').on('click', function () {
+                var tr = $(this).parents('tr:first');
+
+                var icon = tr.find('#Icon')[0];
+                var form = new FormData();
+                form.append("ThemeTitle", "@Html.Raw(Model.Title)");
+                form.append('Title', tr.find('#Title').val());
+                form.append('Description', tr.find('#Description').val());
+                form.append('Visibility', (tr.find('#Visibility:checked').length > 0) ? 'true' : 'false');
+                form.append('Icon', icon.files[0], icon.value);
+                
+                $.ajax({
+                    url: '/Topic/Create',
+                    type: 'POST',
+                    processData: false,
+                    contentType: false,
+                    dataType: 'json',
+                    data: form
+                });
+
+                tr.remove();
+            });
+
+            // Cancel topic creation
+            $('.cancel-create-topic').on('click', function () {
+                $(this).parents('tr:first').remove();
+            });
+        });
+
+        // Edit topic closure
+        $(function () {
+            // Hide al the edit-mode forms
+            $(".edit-topic-mode").hide();
+
+            // Toggle a topic for edition
+            $('.edit-topic').on('click', function () {
+                $(this).parents('tr:first').find('.edit-topic-mode, .display-topic-mode').toggle();
+            });
+
+            // Post changes to databse
+            $('.save-topic').on('click', function () {
+                var tr = $(this).parents('tr:first');
+
+                var icon = tr.find('#Icon')[0];
+                var form = new FormData();
+                form.append("ThemeTitle", "@Html.Raw(Model.Title)");
+                form.append('Title', tr.find('#Title').text());
+                form.append('Description', tr.find('#Description').val());
+                form.append('Visibility', (tr.find('#Visibility:checked').length > 0) ? 'true' : 'false');
+                form.append('Icon', icon.files[0], icon.value);
+
+                $.ajax({
+                    url: '/Topic/Edit',
+                    type: 'POST',
+                    processData: false,
+                    contentType: false,
+                    dataType: 'json',
+                    data: form,
+                    success: function (topic) {
+                        if (!topic.Description) {
+                            tr.find('#description').html('<i>(não existe descrição)</i>');
+                        } else {
+                            tr.find('#description').text(topic.Description);
+                        }
+
+                        if (topic.Visibility) {
+                            tr.find('#visibility').text('Sim');
+                        } else {
+                            tr.find('#visibility').text('Não');
+                        }
+
+                        if (!topic.IconPath) {
+                            tr.find('#icon').html('<i>(não existe ícone)</i>');
+                        } else {
+                            var path = topic.IconPath.split('\\').pop();
+                            tr.find('#icon').html('<a href="/Icons/' + path + '" download>Descarregar</a>');
+                        }
+                    }
+                });
+
+                tr.find('.edit-topic-mode, .display-topic-mode').toggle();
+            });
+
+            // Cancel changes
+            $('.cancel-topic').on('click', function () {
+                $(this).parents('tr:first').find('.edit-topic-mode, .display-topic-mode').toggle();
+            });
+        });
+    })
+</script>

@@ -1,0 +1,56 @@
+﻿@model Algarve_Destino_Seguro.Models.IdentifiedZone
+@{
+    ViewBag.Title = "Detalhes";
+    var Description = "Gerir os horários da zona identificada \"" + @Model.Name + "\".";
+}
+
+<div class="page-header">
+    <h1>@ViewBag.Title <br /> <small>@Description</small></h1>
+</div>
+
+<ol class="breadcrumb">
+    <li><a href="@Url.Action("Index", "Home")">Página Inicial</a></li>
+    <li><a href="@Url.Action("Index", "IdentifiedZone")">Zonas Identificadas</a></li>
+    <li class="active">@Model.Name</li>
+</ol>
+
+
+<dl class="dl-horizontal">
+    <dt>
+        @Html.DisplayNameFor(model => model.Name)
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.Name)
+    </dd>
+
+    <dt>
+        @Html.DisplayNameFor(model => model.Radius)
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.Radius)
+    </dd>
+
+    <dt>
+        @Html.DisplayNameFor(model => model.VertexLatitude)
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.VertexLatitude)
+    </dd>
+
+    <dt>
+        @Html.DisplayNameFor(model => model.VertexLongitude)
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.VertexLongitude)
+    </dd>
+</dl>
+
+<div id="webgrid">
+    <div id="webgrid-content">
+        @{ Html.RenderAction("DetailsGetIdentifiedZoneSchedulesPage", new { id = @Model.Name, page = 0 }); }
+    </div>
+</div>

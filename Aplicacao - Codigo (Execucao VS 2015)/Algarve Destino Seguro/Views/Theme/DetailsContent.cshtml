@@ -1,0 +1,73 @@
+﻿@model Algarve_Destino_Seguro.Models.ThemeContent
+@{
+    ViewBag.Title = "Detalhes";
+    var Description = "Visualizar o conteúdo do tema \"" + @Model.ThemeTitle + "\" na linguagem \"" + @Model.LanguageCode +"\".";
+}
+
+<div class="page-header">
+    <h1>@ViewBag.Title <br /> <small>@Description</small></h1>
+</div>
+
+<ol class="breadcrumb">
+    <li><a href="@Url.Action("Index", "Home")">Página Inicial</a></li>
+    <li><a href="@Url.Action("Index", "Theme")">Temas</a></li>
+    <li><a href="@Url.Action("Details", "Theme", new { id = Model.ThemeTitle })">@Model.ThemeTitle</a></li>
+    <li class="active">@Model.LanguageCode</li>
+</ol>
+
+<dl class="dl-horizontal">
+    <dt>
+        @Html.DisplayNameFor(model => model.TranslatedTitle)
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.TranslatedTitle)
+    </dd>
+
+    <dt>
+        @Html.DisplayNameFor(model => model.Visibility)
+    </dt>
+
+    <dd>
+        @if (Model.Visibility)
+        {
+            @Html.Raw("Sim")
+        }
+        else
+        {
+            @Html.Raw("Não")
+        }
+    </dd>
+    
+    <dt>
+        @Html.DisplayNameFor(model => model.Document)
+    </dt>
+
+    <dd>
+        @if (Model.Document == null)
+        {
+            <i>(não existe documento)</i>
+        }
+        else
+        {
+            <a href="~/Documents/Uploads/@Path.GetFileName(Model.Document)" download>Descarregar</a>
+        }
+    </dd>
+</dl>
+
+@if (Model.Document != null)
+{
+    <div id="content-document" class="col-md-12"><em>A carregar o documento...</em></div>
+
+    <script>
+    $(function () {
+        $.ajax({
+            type: "GET",
+            url: "/Documents/Uploads/@Path.GetFileName(Model.Document)",
+            success: function (viewHTML) {
+                $("#content-document").html(viewHTML);
+            }
+        });
+    });
+    </script>
+}

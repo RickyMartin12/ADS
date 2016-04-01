@@ -1,0 +1,151 @@
+﻿@{
+    WebGrid webGrid = ViewBag.webGrid;
+}
+
+@webGrid.GetHtml(
+        tableStyle: "table table-hover",
+        columns: webGrid.Columns(
+                webGrid.Column("Title", "Título", format:
+                        @<text>
+                            <span id="Title">@item.Title</span>
+                        </text>
+                    ),
+                webGrid.Column("Description", "Descrição", format:
+                        @<text>
+                            @if (item.Description == null)
+                            {
+                                <span class="display-mode" id="description"><i>(não existe descrição)</i></span>
+                            }
+                            else
+                            {
+                                <span class="display-mode" id="description">@item.Description</span>
+                            }
+                            <input class="form-control edit-mode" type="text" name="Description" id="Description" value="@item.Description" />
+                        </text>
+                    ),
+                webGrid.Column("Visibility", "Visibilidade", format:
+                        @<text>
+                            @if (item.Visibility)
+                            {
+                                <span class="display-mode" id="visibility">Sim</span>
+                            }
+                            else
+                            {
+                                <span class="display-mode" id="visibility">Não</span>
+                            }
+                            <input class="edit-mode" type="checkbox" name="Visibility" id="Visibility" value="true" @if (item.Visibility) { @Html.Raw("checked")   } />
+                            <input class="edit-mode" type="hidden" name="Visibility" value="false" />
+                        </text>
+                    ),
+                webGrid.Column("Icon", "Ícone", format:
+                        @<text>
+                            @if (item.Icon == null)
+                            {
+                                <span class="display-mode" id="icon"><i>(não existe ícone)</i></span>
+                            }
+                            else
+                            {
+                                <span class="display-mode" id="icon"><a href="~/Icons/@Path.GetFileName(item.Icon)" download>Descarregar</a></span>
+                            }
+                            <input class="edit-mode" type="file" name="Icon" id="Icon" accept=".bmp,.gif,.jpeg,.jpg,.png" />
+                        </text>
+                    ),
+                webGrid.Column(format:
+                        @<text>
+                            <a class="display-mode" href="@Url.Action("Details", "Theme", new { id = item.Title })" title="Ver Mais"><span class="glyphicon glyphicon-info-sign"></span></a>
+                            <a class="save-theme edit-mode" href="javascript:void(0)" title="Guardar"><span class="glyphicon glyphicon-ok"></span></a>
+                        </text>
+                    ),
+                webGrid.Column(format:
+                        @<text>
+                            <a class="display-mode edit-theme" href="javascript:void(0)" title="Editar"><span class="glyphicon glyphicon-edit"></span></a>
+                            <a class="edit-mode cancel-theme" href="javascript:void(0)" title="Cancelar"><span class="glyphicon glyphicon-remove"></span></a>
+                        </text>
+                    )
+            ),
+        mode: 0
+    )
+
+<script>
+    // Function for table reloading (paging, ...)
+    function getThemesPage() {
+        $.ajax({
+            type: "GET",
+            url: "/Theme/IndexGetThemes/",
+            success: function (viewHTML) {
+                console.log("Refresh");
+                $("#webgrid-content").html(viewHTML);
+            }
+        });
+    }
+
+    // Topics function closure
+    $(function () {
+        // Dynamically add "Refresh" button to the table
+        $("#webgrid-content > table > thead > tr > th").last().html(
+                '<a onclick="getThemesPage()" href="javascript:void(0)" title="Actualizar"><span class="glyphicon glyphicon-refresh"></span></a>'
+            );
+        
+        // Edit theme closure
+        $(function () {
+            // Hide al the edit-mode forms
+            $(".edit-mode").hide();
+
+            // Toggle a topic for edition
+            $('.edit-theme').on('click', function () {
+                $(this).parents('tr:first').find('.edit-mode, .display-mode').toggle();
+            });
+
+            // Post changes to databse
+            $('.save-theme').on('click', function () {
+                var tr = $(this).parents('tr:first');
+
+                var icon = tr.find('#Icon')[0];
+                var form = new FormData();
+                form.append('Title', tr.find('#Title').text());
+                form.append('Description', tr.find('#Description').val());
+                form.append('Visibility', (tr.find('#Visibility:checked').length > 0) ? 'true' : 'false');
+                form.append('Icon', icon.files[0], icon.value);
+
+                $.ajax({
+                    url: '/Theme/Edit',
+                    type: 'POST',
+                    processData: false,
+                    contentType: false,
+                    dataType: 'json',
+                    data: form,
+                    success: function (theme) {
+                        console.log("Edited");
+                        console.log(theme);
+
+                        if (!theme.Description) {
+                            tr.find('#description').html('<i>(não existe descrição)</i>');
+                        } else {
+                            tr.find('#description').text(theme.Description);
+                        }
+
+                        if (theme.Visibility) {
+                            tr.find('#visibility').text('Sim');
+                        } else {
+                            tr.find('#visibility').text('Não');
+                        }
+
+                        if (!theme.IconPath) {
+                            tr.find('#icon').html('<i>(não existe ícone)</i>');
+                        } else {
+                            var path = theme.IconPath.split('\\').pop();
+                            tr.find('#icon').html('<a href="/Icons/' + path + '" download>Descarregar</a>');
+                        }
+                    }
+                });
+
+                tr.find('.edit-mode, .display-mode').toggle();
+            });
+
+            // Cancel changes
+            $('.cancel-theme').on('click', function () {
+                $(this).parents('tr:first').find('.edit-mode, .display-mode').toggle();
+            });
+        });
+    })
+</script>

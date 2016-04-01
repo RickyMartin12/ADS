@@ -1,0 +1,162 @@
+﻿@{
+    WebGrid webGrid = ViewBag.webGrid;
+}
+
+@webGrid.GetHtml(
+        tableStyle: "table table-hover",
+        columns: webGrid.Columns(
+                webGrid.Column("Code", "Código", format:
+                        @<text>
+                            <span id="Code">@item.Code</span>
+                        </text>
+                    ),
+                webGrid.Column("Name", "Nome", format:
+                        @<text>
+                            <span class="display-mode" id="name">@item.Name</span>
+                            <input class="form-control edit-mode" type="text" name="Name" id="Name" value="@item.Name" />
+                        </text>
+                    ),
+                webGrid.Column(format:
+                        @<text>
+                            <a class="save-language edit-mode" href="javascript:void(0)" title="Guardar"><span class="glyphicon glyphicon-ok"></span></a>
+                        </text>
+                    ),
+                webGrid.Column(format:
+                        @<text>
+                            <a class="display-mode edit-language" href="javascript:void(0)" title="Editar"><span class="glyphicon glyphicon-edit"></span></a>
+                            <a class="edit-mode cancel-language" href="javascript:void(0)" title="Cancelar"><span class="glyphicon glyphicon-remove"></span></a>
+                        </text>
+                    ),
+                webGrid.Column(format:
+                        @<text>
+                            <input class="display-mode language-to-delete" type="checkbox" value="@item.Code" />
+                        </text>
+                    )
+            ),
+        mode: 0
+    )
+
+@{
+    if (webGrid.Rows.Count > 0)
+    {
+        ViewBag.WebGrid = webGrid;
+        ViewBag.JSFunction = "getLanguagesPage";
+        Html.RenderPartial("_Pagination");
+    }
+}
+
+<script>
+    // Function for table reloading (paging, ...)
+    function getLanguagesPage(pageNumber) {
+        $.ajax({
+            type: "GET",
+            url: "/Language/IndexGetLanguages?page=" + pageNumber,
+            success: function (viewHTML) {
+                $("#webgrid-content").html(viewHTML);
+            }
+        });
+    }
+
+    // Languages function closure
+    $(function () {
+        // Dynamically add "Create", "Refresh" and "Delete" buttons to the table
+        var ths = $("#webgrid-content > table > thead > tr > th").slice(-3);
+        ths.eq(0).html(
+                '<a id="add-language" href="javascript:void(0)" title="Adicionar"><span class="glyphicon glyphicon-plus"></span></a>'
+            );
+        ths.eq(1).html(
+                '<a onclick="getLanguagesPage(@webGrid.PageIndex)" href="javascript:void(0)" title="Actualizar"><span class="glyphicon glyphicon-refresh"></span></a>'
+            );
+        ths.eq(2).html(
+                '<a id="delete-language" href="javascript:void(0)" title="Apagar Seleccionados"><span class="glyphicon glyphicon-remove"></span></a>'
+            );
+
+        // Delete selected languages
+        $("#delete-language").on('click', function () {
+            $.each($(".language-to-delete:checked"), function (k, v) {
+                $.post(
+                    '/Language/Delete',
+                    {
+                        "code": v.value
+                    },
+                    function (language) {
+                        getLanguagesPage(@webGrid.PageIndex);
+                    }, "json");
+            });
+        })
+
+        // Add languages
+        $("#add-language").on('click', function () {
+            // Add dynamic form to the table
+            $('#webgrid-content > table > tbody').prepend(
+                    '<tr>' +
+                        '<td><input class="form-control" type="text" name="Code" id="Code" /></td>' +
+                        '<td><input class="form-control" type="text" name="Name" id="Name" /></td>' +
+                        '<td><a class="create-language" href="javascript:void(0)"><span class="glyphicon glyphicon-ok"></a></td>' +
+                        '<td><a class="cancel-create-language" href="javascript:void(0)"><span class="glyphicon glyphicon-remove"></a></td>' +
+                        '<td></td>' +
+                    '</tr>'
+                );
+
+            // Post creation to database
+            $('.create-language').on('click', function () {
+                var tr = $(this).parents('tr:first');
+
+                var code = tr.find('#Code').val();
+                var name = tr.find('#Name').val();
+
+                $.post(
+                    '/Language/Create',
+                    {
+                        "code": code,
+                        "name": name
+                    },
+                    function (language) {
+                    }, "json");
+
+                tr.remove();
+            });
+
+            // Cancel language creation
+            $('.cancel-create-language').on('click', function () {
+                $(this).parents('tr:first').remove();
+            });
+        });
+
+        // Edit language closure
+        $(function () {
+            // Hide al the edit-mode forms
+            $(".edit-mode").hide();
+
+            // Toggle a language for edition
+            $('.edit-language').on('click', function () {
+                $(this).parents('tr:first').find('.edit-mode, .display-mode').toggle();
+            });
+
+            // Post changes to databse
+            $('.save-language').on('click', function () {
+                var tr = $(this).parents('tr:first');
+
+                var code = tr.find('#Code').text();
+                var name = tr.find('#Name').val();
+
+                $.post(
+                    '/Language/Edit',
+                    {
+                        "code": code,
+                        "name": name
+                    },
+                    function (language) {
+                        tr.find('#name').text(language.Name);
+                    }, "json");
+
+                tr.find('.edit-mode, .display-mode').toggle();
+            });
+
+            // Cancel changes
+            $('.cancel-language').on('click', function () {
+                $(this).parents('tr:first').find('.edit-mode, .display-mode').toggle();
+            });
+        });
+    })
+</script>

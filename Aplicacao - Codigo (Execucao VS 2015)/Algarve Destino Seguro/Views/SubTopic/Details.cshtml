@@ -1,0 +1,79 @@
+﻿@model Algarve_Destino_Seguro.Models.SubTopic
+@{
+    ViewBag.Title = "Detalhes";
+    var Description = "Gerir o conteúdo associado ao sub-tópico \"" + @Model.Title + "\" do tópico \"" + @Model.TopicTitle + "\", do tema \"" + @Model.TopicThemeTitle + "\".";
+}
+
+<div class="page-header">
+    <h1>@ViewBag.Title <br /> <small>@Description</small></h1>
+</div>
+
+<ol class="breadcrumb">
+    <li><a href="@Url.Action("Index", "Home")">Página Inicial</a></li>
+    <li><a href="@Url.Action("Index", "Theme")">Temas</a></li>
+    <li><a href="@Url.Action("Details", "Theme", new { id = @Model.TopicThemeTitle })">@Model.TopicThemeTitle</a></li>
+    <li><a href="@Url.Action("Details", "Topic", new { id = @Model.TopicTitle, themeTitle = @Model.TopicThemeTitle })">@Model.TopicTitle</a></li>
+    <li class="active">@Model.Title</li>
+</ol>
+
+
+<dl class="dl-horizontal">
+    <dt>
+        @Html.DisplayNameFor(model => model.Title)
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.Title)
+    </dd>
+
+    <dt>
+        @Html.DisplayNameFor(model => model.Description)
+    </dt>
+
+    <dd>
+        @if (Model.Description == null)
+        {
+            <i>(não existe descrição)</i>
+        }
+        else
+        {
+            @Html.DisplayFor(model => model.Description)
+        }
+    </dd>
+
+    <dt>
+        @Html.DisplayNameFor(model => model.Visibility)
+    </dt>
+
+    <dd>
+        @if (Model.Visibility)
+        {
+            @Html.Raw("Sim")
+        }
+        else
+        {
+            @Html.Raw("Não")
+        }
+    </dd>
+
+    <dt>
+        @Html.DisplayNameFor(model => model.Icon)
+    </dt>
+
+    <dd>
+        @if (Model.Icon == null)
+        {
+            <i>(não existe ícone)</i>
+        }
+        else
+        {
+            <a href="~/Icons/@Path.GetFileName(Model.Icon)" download><img id="uploaded-icon" src="~/Icons/@Path.GetFileName(Model.Icon)" class="img-thumbnail"></a>
+        }
+    </dd>
+</dl>
+
+<div id="webgrid">
+    <div id="webgrid-content">
+        @{ Html.RenderAction("DetailsGetSubTopicContentsPage", new { id = @Model.Title, topicTitle = @Model.TopicTitle, topicThemeTitle = @Model.TopicThemeTitle, page = 0 }); }
+    </div>
+</div>

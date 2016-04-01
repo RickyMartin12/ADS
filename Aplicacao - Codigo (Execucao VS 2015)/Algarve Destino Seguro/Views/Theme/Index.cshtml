@@ -1,0 +1,20 @@
+﻿@model IEnumerable<Algarve_Destino_Seguro.Models.Theme>
+@{
+    ViewBag.Title = "Temas";
+    var Description = "Gerir os tópicos e conteúdos associados aos temas.";
+}
+
+<div class="page-header">
+    <h1>@ViewBag.Title <br /> <small>@Description</small></h1>
+</div>
+
+<ol class="breadcrumb">
+    <li><a href="@Url.Action("Index", "Home")">Página Inicial</a></li>
+    <li class="active">Temas</li>
+</ol>
+
+<div id="webgrid">
+    <div id="webgrid-content">
+        @{ Html.RenderAction("IndexGetThemes"); }
+    </div>
+</div>

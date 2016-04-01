@@ -1,0 +1,48 @@
+﻿@{
+    WebGrid webGrid = ViewBag.WebGrid;
+    var jsFunction = Html.Raw(ViewBag.JSFunction);
+}
+
+<nav class="text-center">
+    <ul class="pagination pagination-sm" id="pagination">
+
+        @if (ViewBag.WebGrid.PageIndex == 0)
+        {
+            <li class="disabled"><a href="javascript:void(0)"><span class="glyphicon glyphicon-step-backward"></span></a></li>
+            <li class="disabled"><a href="javascript:void(0)"><span class="glyphicon glyphicon-chevron-left"></span></a></li>
+        }
+        else
+        {
+            <li><a href="javascript:void(0)" onclick="@jsFunction (0)"><span class="glyphicon glyphicon-step-backward"></span></a></li>
+            <li><a href="javascript:void(0)" onclick="@jsFunction (@{ var prev = webGrid.PageIndex - 1; @prev })"><span class="glyphicon glyphicon-chevron-left"></span></a></li>
+        }
+
+        @for (int i = webGrid.PageIndex - 2; i <= webGrid.PageIndex + 2; i++)
+        {
+            var j = i + 1;
+            if (i < 0 || i >= webGrid.PageCount)
+            {
+                continue;
+            }
+            if (i == webGrid.PageIndex)
+            {
+                <li class="active"><a href="javascript:void(0)" onclick="@jsFunction (@i)">@j</a></li>
+            }
+            else
+            {
+                <li><a href="javascript:void(0)" onclick="@jsFunction (@i)">@j</a></li>
+            }
+        }
+
+        @if (webGrid.PageIndex == webGrid.PageCount - 1)
+        {
+            <li class="disabled"><a href="javascript:void(0)"><span class="glyphicon glyphicon-chevron-right"></span></a></li>
+            <li class="disabled"><a href="javascript:void(0)"><span class="glyphicon glyphicon-step-forward"></span></a></li>
+        }
+        else
+        {
+            <li><a href="javascript:void(0)" onclick="@jsFunction (@{ var next = webGrid.PageIndex + 1; @next })"><span class="glyphicon glyphicon-chevron-right"></span></a></li>
+            <li><a href="javascript:void(0)" onclick="@jsFunction (@{ var last = webGrid.PageCount - 1; @last })"><span class="glyphicon glyphicon-step-forward"></span></a></li>
+        }
+    </ul>
+</nav>

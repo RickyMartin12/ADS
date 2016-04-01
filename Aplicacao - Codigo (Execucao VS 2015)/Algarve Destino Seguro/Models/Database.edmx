@@ -1,0 +1,1688 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ADS.Models.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="ADSModelsStoreContainer">
+    <EntitySet Name="Theme" EntityType="ADS.Models.Store.Theme" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Topic" EntityType="ADS.Models.Store.Topic" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="SubTopic" EntityType="ADS.Models.Store.SubTopic" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Language" EntityType="ADS.Models.Store.Language" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ThemeContent" EntityType="ADS.Models.Store.ThemeContent" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="TopicContent" EntityType="ADS.Models.Store.TopicContent" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="SubTopicContent" EntityType="ADS.Models.Store.SubTopicContent" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Phrase" EntityType="ADS.Models.Store.Phrase" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="EntityType" EntityType="ADS.Models.Store.EntityType" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="EntityTypeLanguage" EntityType="ADS.Models.Store.EntityTypeLanguage" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Vertex" EntityType="ADS.Models.Store.Vertex" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Entity" EntityType="ADS.Models.Store.Entity" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Country" EntityType="ADS.Models.Store.Country" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CountryLanguage" EntityType="ADS.Models.Store.CountryLanguage" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="EntityLanguage" EntityType="ADS.Models.Store.EntityLanguage" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="IdentifiedZone" EntityType="ADS.Models.Store.IdentifiedZone" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="IdentifiedZoneType" EntityType="ADS.Models.Store.IdentifiedZoneType" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="IdentifiedZoneSchedule" EntityType="ADS.Models.Store.IdentifiedZoneSchedule" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CommunicationType" EntityType="ADS.Models.Store.CommunicationType" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CommunicationState" EntityType="ADS.Models.Store.CommunicationState" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Communication" EntityType="ADS.Models.Store.Communication" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="TopicTheme" Association="ADS.Models.Store.TopicTheme">
+      <End Role="Topic" EntitySet="Topic" />
+      <End Role="Theme" EntitySet="Theme" />
+    </AssociationSet>
+    <AssociationSet Name="SubTopicTopic" Association="ADS.Models.Store.SubTopicTopic">
+      <End Role="SubTopic" EntitySet="SubTopic" />
+      <End Role="Topic" EntitySet="Topic" />
+    </AssociationSet>
+    <AssociationSet Name="ThemeContentTheme" Association="ADS.Models.Store.ThemeContentTheme">
+      <End Role="ThemeContent" EntitySet="ThemeContent" />
+      <End Role="Theme" EntitySet="Theme" />
+    </AssociationSet>
+    <AssociationSet Name="ThemeContentLanguage" Association="ADS.Models.Store.ThemeContentLanguage">
+      <End Role="ThemeContent" EntitySet="ThemeContent" />
+      <End Role="Language" EntitySet="Language" />
+    </AssociationSet>
+    <AssociationSet Name="TopicContentTopic" Association="ADS.Models.Store.TopicContentTopic">
+      <End Role="TopicContent" EntitySet="TopicContent" />
+      <End Role="Topic" EntitySet="Topic" />
+    </AssociationSet>
+    <AssociationSet Name="TopicContentLanguage" Association="ADS.Models.Store.TopicContentLanguage">
+      <End Role="TopicContent" EntitySet="TopicContent" />
+      <End Role="Language" EntitySet="Language" />
+    </AssociationSet>
+    <AssociationSet Name="SubTopicContentSubTopic" Association="ADS.Models.Store.SubTopicContentSubTopic">
+      <End Role="SubTopicContent" EntitySet="SubTopicContent" />
+      <End Role="SubTopic" EntitySet="SubTopic" />
+    </AssociationSet>
+    <AssociationSet Name="SubTopicContentLanguage" Association="ADS.Models.Store.SubTopicContentLanguage">
+      <End Role="SubTopicContent" EntitySet="SubTopicContent" />
+      <End Role="Language" EntitySet="Language" />
+    </AssociationSet>
+    <AssociationSet Name="PhraseLanguage" Association="ADS.Models.Store.PhraseLanguage">
+      <End Role="Phrase" EntitySet="Phrase" />
+      <End Role="Language" EntitySet="Language" />
+    </AssociationSet>
+    <AssociationSet Name="PhrasePhrase" Association="ADS.Models.Store.PhrasePhrase">
+      <End Role="Phrase" EntitySet="Phrase" />
+      <End Role="Phrase1" EntitySet="Phrase" />
+    </AssociationSet>
+    <AssociationSet Name="EntityTypeLanguageLanguage" Association="ADS.Models.Store.EntityTypeLanguageLanguage">
+      <End Role="EntityTypeLanguage" EntitySet="EntityTypeLanguage" />
+      <End Role="Language" EntitySet="Language" />
+    </AssociationSet>
+    <AssociationSet Name="EntityTypeLanguageEntityType" Association="ADS.Models.Store.EntityTypeLanguageEntityType">
+      <End Role="EntityTypeLanguage" EntitySet="EntityTypeLanguage" />
+      <End Role="EntityType" EntitySet="EntityType" />
+    </AssociationSet>
+    <AssociationSet Name="CountryLanguageLanguage" Association="ADS.Models.Store.CountryLanguageLanguage">
+      <End Role="CountryLanguage" EntitySet="CountryLanguage" />
+      <End Role="Language" EntitySet="Language" />
+    </AssociationSet>
+    <AssociationSet Name="CountryLanguageCountry" Association="ADS.Models.Store.CountryLanguageCountry">
+      <End Role="CountryLanguage" EntitySet="CountryLanguage" />
+      <End Role="Country" EntitySet="Country" />
+    </AssociationSet>
+    <AssociationSet Name="EntityCountry" Association="ADS.Models.Store.EntityCountry">
+      <End Role="Entity" EntitySet="Entity" />
+      <End Role="Country" EntitySet="Country" />
+    </AssociationSet>
+    <AssociationSet Name="EntityEntityType" Association="ADS.Models.Store.EntityEntityType">
+      <End Role="Entity" EntitySet="Entity" />
+      <End Role="EntityType" EntitySet="EntityType" />
+    </AssociationSet>
+    <AssociationSet Name="EntityVertex" Association="ADS.Models.Store.EntityVertex">
+      <End Role="Entity" EntitySet="Entity" />
+      <End Role="Vertex" EntitySet="Vertex" />
+    </AssociationSet>
+    <AssociationSet Name="EntityLanguageLanguage" Association="ADS.Models.Store.EntityLanguageLanguage">
+      <End Role="EntityLanguage" EntitySet="EntityLanguage" />
+      <End Role="Language" EntitySet="Language" />
+    </AssociationSet>
+    <AssociationSet Name="EntityLanguageEntity" Association="ADS.Models.Store.EntityLanguageEntity">
+      <End Role="EntityLanguage" EntitySet="EntityLanguage" />
+      <End Role="Entity" EntitySet="Entity" />
+    </AssociationSet>
+    <AssociationSet Name="IdentifiedZoneVertex" Association="ADS.Models.Store.IdentifiedZoneVertex">
+      <End Role="IdentifiedZone" EntitySet="IdentifiedZone" />
+      <End Role="Vertex" EntitySet="Vertex" />
+    </AssociationSet>
+    <AssociationSet Name="IdentifiedZoneScheduleIdentifiedZoneType" Association="ADS.Models.Store.IdentifiedZoneScheduleIdentifiedZoneType">
+      <End Role="IdentifiedZoneSchedule" EntitySet="IdentifiedZoneSchedule" />
+      <End Role="IdentifiedZoneType" EntitySet="IdentifiedZoneType" />
+    </AssociationSet>
+    <AssociationSet Name="IdentifiedZoneScheduleIdentifiedZone" Association="ADS.Models.Store.IdentifiedZoneScheduleIdentifiedZone">
+      <End Role="IdentifiedZoneSchedule" EntitySet="IdentifiedZoneSchedule" />
+      <End Role="IdentifiedZone" EntitySet="IdentifiedZone" />
+    </AssociationSet>
+    <AssociationSet Name="CommunicationCommunicationType" Association="ADS.Models.Store.CommunicationCommunicationType">
+      <End Role="Communication" EntitySet="Communication" />
+      <End Role="CommunicationType" EntitySet="CommunicationType" />
+    </AssociationSet>
+    <AssociationSet Name="CommunicationCommunicationState" Association="ADS.Models.Store.CommunicationCommunicationState">
+      <End Role="Communication" EntitySet="Communication" />
+      <End Role="CommunicationState" EntitySet="CommunicationState" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Theme">
+    <Key>
+      <PropertyRef Name="Title" />
+    </Key>
+    <Property Name="Title" Type="nvarchar" Nullable="false" MaxLength="64" />
+    <Property Name="Description" Type="nvarchar" Nullable="true" MaxLength="128" />
+    <Property Name="Visibility" Type="bit" Nullable="false" DefaultValue="false" />
+    <Property Name="Icon" Type="nvarchar" Nullable="true" MaxLength="512" />
+  </EntityType>
+  <EntityType Name="Topic">
+    <Key>
+      <PropertyRef Name="Title" />
+      <PropertyRef Name="ThemeTitle" />
+    </Key>
+    <Property Name="ThemeTitle" Type="nvarchar" Nullable="false" MaxLength="64" />
+    <Property Name="Title" Type="nvarchar" Nullable="false" MaxLength="64" />
+    <Property Name="Description" Type="nvarchar" Nullable="true" MaxLength="128" />
+    <Property Name="Visibility" Type="bit" Nullable="false" DefaultValue="false" />
+    <Property Name="Icon" Type="nvarchar" Nullable="true" MaxLength="512" />
+  </EntityType>
+  <EntityType Name="SubTopic">
+    <Key>
+      <PropertyRef Name="Title" />
+      <PropertyRef Name="TopicTitle" />
+      <PropertyRef Name="TopicThemeTitle" />
+    </Key>
+    <Property Name="TopicThemeTitle" Type="nvarchar" Nullable="false" MaxLength="64" />
+    <Property Name="TopicTitle" Type="nvarchar" Nullable="false" MaxLength="64" />
+    <Property Name="Title" Type="nvarchar" Nullable="false" MaxLength="64" />
+    <Property Name="Description" Type="nvarchar" Nullable="true" MaxLength="128" />
+    <Property Name="Visibility" Type="bit" Nullable="false" DefaultValue="false" />
+    <Property Name="Icon" Type="nvarchar" Nullable="true" MaxLength="512" />
+  </EntityType>
+  <EntityType Name="Language">
+    <Key>
+      <PropertyRef Name="Code" />
+    </Key>
+    <Property Name="Code" Type="nvarchar" Nullable="false" MaxLength="8" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="64" />
+  </EntityType>
+  <EntityType Name="ThemeContent">
+    <Key>
+      <PropertyRef Name="ThemeTitle" />
+      <PropertyRef Name="LanguageCode" />
+    </Key>
+    <Property Name="ThemeTitle" Type="nvarchar" Nullable="false" MaxLength="64" />
+    <Property Name="LanguageCode" Type="nvarchar" Nullable="false" MaxLength="8" />
+    <Property Name="TranslatedTitle" Type="nvarchar" Nullable="false" MaxLength="64" />
+    <Property Name="Visibility" Type="bit" Nullable="false" DefaultValue="false" />
+    <Property Name="Document" Type="nvarchar" Nullable="true" MaxLength="512" />
+  </EntityType>
+  <EntityType Name="TopicContent">
+    <Key>
+      <PropertyRef Name="TopicTitle" />
+      <PropertyRef Name="TopicThemeTitle" />
+      <PropertyRef Name="LanguageCode" />
+    </Key>
+    <Property Name="TopicTitle" Type="nvarchar" Nullable="false" MaxLength="64" />
+    <Property Name="TopicThemeTitle" Type="nvarchar" Nullable="false" MaxLength="64" />
+    <Property Name="LanguageCode" Type="nvarchar" Nullable="false" MaxLength="8" />
+    <Property Name="TranslatedTitle" Type="nvarchar" Nullable="false" MaxLength="64" />
+    <Property Name="Visibility" Type="bit" Nullable="false" DefaultValue="false" />
+    <Property Name="Document" Type="nvarchar" Nullable="true" MaxLength="512" />
+  </EntityType>
+  <EntityType Name="SubTopicContent">
+    <Key>
+      <PropertyRef Name="SubTopicTitle" />
+      <PropertyRef Name="SubTopicTopicTitle" />
+      <PropertyRef Name="SubTopicTopicThemeTitle" />
+      <PropertyRef Name="LanguageCode" />
+    </Key>
+    <Property Name="SubTopicTitle" Type="nvarchar" Nullable="false" MaxLength="64" />
+    <Property Name="SubTopicTopicTitle" Type="nvarchar" Nullable="false" MaxLength="64" />
+    <Property Name="SubTopicTopicThemeTitle" Type="nvarchar" Nullable="false" MaxLength="64" />
+    <Property Name="LanguageCode" Type="nvarchar" Nullable="false" MaxLength="8" />
+    <Property Name="TranslatedTitle" Type="nvarchar" Nullable="false" MaxLength="64" />
+    <Property Name="Visibility" Type="bit" Nullable="false" DefaultValue="false" />
+    <Property Name="Document" Type="nvarchar" Nullable="true" MaxLength="512" />
+  </EntityType>
+  <EntityType Name="Phrase">
+    <Key>
+      <PropertyRef Name="Code" />
+    </Key>
+    <Property Name="Code" Type="nvarchar" Nullable="false" MaxLength="64" />
+    <Property Name="LanguageCode" Type="nvarchar" Nullable="false" MaxLength="8" />
+    <Property Name="PhraseCode" Type="nvarchar" Nullable="true" MaxLength="64" />
+    <Property Name="Content" Type="nvarchar" Nullable="false" MaxLength="128" />
+  </EntityType>
+  <EntityType Name="EntityType">
+    <Key>
+      <PropertyRef Name="Name" />
+    </Key>
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="64" />
+  </EntityType>
+  <EntityType Name="EntityTypeLanguage">
+    <Key>
+      <PropertyRef Name="LanguageCode" />
+      <PropertyRef Name="EntityTypeName" />
+    </Key>
+    <Property Name="LanguageCode" Type="nvarchar" Nullable="false" MaxLength="8" />
+    <Property Name="EntityTypeName" Type="nvarchar" Nullable="false" MaxLength="64" />
+    <Property Name="TranslateName" Type="nvarchar" Nullable="false" MaxLength="64" />
+  </EntityType>
+  <EntityType Name="Vertex">
+    <Key>
+      <PropertyRef Name="Latitude" />
+      <PropertyRef Name="Longitude" />
+    </Key>
+    <Property Name="Latitude" Type="float" Nullable="false" />
+    <Property Name="Longitude" Type="float" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Entity">
+    <Key>
+      <PropertyRef Name="Name" />
+      <PropertyRef Name="ZipCode" />
+    </Key>
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="128" />
+    <Property Name="ZipCode" Type="nvarchar" Nullable="false" MaxLength="8" />
+    <Property Name="CountryCode" Type="int" Nullable="false" />
+    <Property Name="EntityTypeName" Type="nvarchar" Nullable="false" MaxLength="64" />
+    <Property Name="VertexLatitude" Type="float" Nullable="false" />
+    <Property Name="VertexLongitude" Type="float" Nullable="false" />
+    <Property Name="Phone" Type="bigint" Nullable="false" />
+    <Property Name="Address" Type="nvarchar" Nullable="false" MaxLength="128" />
+    <Property Name="Attachment" Type="nvarchar" Nullable="true" MaxLength="512" />
+  </EntityType>
+  <EntityType Name="Country">
+    <Key>
+      <PropertyRef Name="Code" />
+    </Key>
+    <Property Name="Code" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="64" />
+  </EntityType>
+  <EntityType Name="CountryLanguage">
+    <Key>
+      <PropertyRef Name="LanguageCode" />
+      <PropertyRef Name="CountryCode" />
+    </Key>
+    <Property Name="LanguageCode" Type="nvarchar" Nullable="false" MaxLength="8" />
+    <Property Name="CountryCode" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="EntityLanguage">
+    <Key>
+      <PropertyRef Name="LanguageCode" />
+      <PropertyRef Name="EntityName" />
+      <PropertyRef Name="EntityZipCode" />
+    </Key>
+    <Property Name="LanguageCode" Type="nvarchar" Nullable="false" MaxLength="8" />
+    <Property Name="EntityName" Type="nvarchar" Nullable="false" MaxLength="128" />
+    <Property Name="EntityZipCode" Type="nvarchar" Nullable="false" MaxLength="8" />
+    <Property Name="TranslatedName" Type="nvarchar" Nullable="false" MaxLength="128" />
+  </EntityType>
+  <EntityType Name="IdentifiedZone">
+    <Key>
+      <PropertyRef Name="Name" />
+    </Key>
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="64" />
+    <Property Name="Radius" Type="float" Nullable="false" />
+    <Property Name="Vertex_Latitude" Type="float" Nullable="false" />
+    <Property Name="Vertex_Longitude" Type="float" Nullable="false" />
+  </EntityType>
+  <EntityType Name="IdentifiedZoneType">
+    <Key>
+      <PropertyRef Name="Name" />
+    </Key>
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="64" />
+    <Property Name="Notification" Type="nvarchar" Nullable="false" MaxLength="128" />
+  </EntityType>
+  <EntityType Name="IdentifiedZoneSchedule">
+    <Key>
+      <PropertyRef Name="IdentifiedZoneTypeName" />
+      <PropertyRef Name="IdentifiedZoneName" />
+    </Key>
+    <Property Name="IdentifiedZoneTypeName" Type="nvarchar" Nullable="false" MaxLength="64" />
+    <Property Name="IdentifiedZoneName" Type="nvarchar" Nullable="false" MaxLength="64" />
+    <Property Name="Start" Type="time" Nullable="false" />
+    <Property Name="End" Type="time" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CommunicationType">
+    <Key>
+      <PropertyRef Name="Name" />
+    </Key>
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="64" />
+  </EntityType>
+  <EntityType Name="CommunicationState">
+    <Key>
+      <PropertyRef Name="Name" />
+    </Key>
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="64" />
+  </EntityType>
+  <EntityType Name="Communication">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CommunicationTypeName" Type="nvarchar" Nullable="false" MaxLength="64" />
+    <Property Name="CommunicationStateName" Type="nvarchar" Nullable="false" MaxLength="64" />
+    <Property Name="Subject" Type="nvarchar" Nullable="false" MaxLength="64" />
+    <Property Name="Content" Type="nvarchar" Nullable="false" MaxLength="256" />
+    <Property Name="Attachment" Type="nvarchar" Nullable="true" MaxLength="512" />
+    <Property Name="SenderName" Type="nvarchar" Nullable="true" MaxLength="64" />
+    <Property Name="SenderEmail" Type="nvarchar" Nullable="true" MaxLength="128" />
+    <Property Name="SentOn" Type="datetime" Nullable="false" />
+    <Property Name="ReceivedOn" Type="datetime" Nullable="false" />
+  </EntityType>
+  <Association Name="TopicTheme">
+    <End Role="Topic" Type="ADS.Models.Store.Topic" Multiplicity="*" />
+    <End Role="Theme" Type="ADS.Models.Store.Theme" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <ReferentialConstraint>
+      <Principal Role="Theme">
+        <PropertyRef Name="Title" />
+      </Principal>
+      <Dependent Role="Topic">
+        <PropertyRef Name="ThemeTitle" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="SubTopicTopic">
+    <End Role="SubTopic" Type="ADS.Models.Store.SubTopic" Multiplicity="*" />
+    <End Role="Topic" Type="ADS.Models.Store.Topic" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <ReferentialConstraint>
+      <Principal Role="Topic">
+        <PropertyRef Name="Title" />
+        <PropertyRef Name="ThemeTitle" />
+      </Principal>
+      <Dependent Role="SubTopic">
+        <PropertyRef Name="TopicTitle" />
+        <PropertyRef Name="TopicThemeTitle" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ThemeContentTheme">
+    <End Role="ThemeContent" Type="ADS.Models.Store.ThemeContent" Multiplicity="*" />
+    <End Role="Theme" Type="ADS.Models.Store.Theme" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <ReferentialConstraint>
+      <Principal Role="Theme">
+        <PropertyRef Name="Title" />
+      </Principal>
+      <Dependent Role="ThemeContent">
+        <PropertyRef Name="ThemeTitle" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ThemeContentLanguage">
+    <End Role="ThemeContent" Type="ADS.Models.Store.ThemeContent" Multiplicity="*" />
+    <End Role="Language" Type="ADS.Models.Store.Language" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <ReferentialConstraint>
+      <Principal Role="Language">
+        <PropertyRef Name="Code" />
+      </Principal>
+      <Dependent Role="ThemeContent">
+        <PropertyRef Name="LanguageCode" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="TopicContentTopic">
+    <End Role="TopicContent" Type="ADS.Models.Store.TopicContent" Multiplicity="*" />
+    <End Role="Topic" Type="ADS.Models.Store.Topic" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <ReferentialConstraint>
+      <Principal Role="Topic">
+        <PropertyRef Name="Title" />
+        <PropertyRef Name="ThemeTitle" />
+      </Principal>
+      <Dependent Role="TopicContent">
+        <PropertyRef Name="TopicTitle" />
+        <PropertyRef Name="TopicThemeTitle" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="TopicContentLanguage">
+    <End Role="TopicContent" Type="ADS.Models.Store.TopicContent" Multiplicity="*" />
+    <End Role="Language" Type="ADS.Models.Store.Language" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <ReferentialConstraint>
+      <Principal Role="Language">
+        <PropertyRef Name="Code" />
+      </Principal>
+      <Dependent Role="TopicContent">
+        <PropertyRef Name="LanguageCode" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="SubTopicContentSubTopic">
+    <End Role="SubTopicContent" Type="ADS.Models.Store.SubTopicContent" Multiplicity="*" />
+    <End Role="SubTopic" Type="ADS.Models.Store.SubTopic" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <ReferentialConstraint>
+      <Principal Role="SubTopic">
+        <PropertyRef Name="Title" />
+        <PropertyRef Name="TopicTitle" />
+        <PropertyRef Name="TopicThemeTitle" />
+      </Principal>
+      <Dependent Role="SubTopicContent">
+        <PropertyRef Name="SubTopicTitle" />
+        <PropertyRef Name="SubTopicTopicTitle" />
+        <PropertyRef Name="SubTopicTopicThemeTitle" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="SubTopicContentLanguage">
+    <End Role="SubTopicContent" Type="ADS.Models.Store.SubTopicContent" Multiplicity="*" />
+    <End Role="Language" Type="ADS.Models.Store.Language" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <ReferentialConstraint>
+      <Principal Role="Language">
+        <PropertyRef Name="Code" />
+      </Principal>
+      <Dependent Role="SubTopicContent">
+        <PropertyRef Name="LanguageCode" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="PhraseLanguage">
+    <End Role="Phrase" Type="ADS.Models.Store.Phrase" Multiplicity="*" />
+    <End Role="Language" Type="ADS.Models.Store.Language" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <ReferentialConstraint>
+      <Principal Role="Language">
+        <PropertyRef Name="Code" />
+      </Principal>
+      <Dependent Role="Phrase">
+        <PropertyRef Name="LanguageCode" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="PhrasePhrase">
+    <End Role="Phrase" Type="ADS.Models.Store.Phrase" Multiplicity="*" />
+    <End Role="Phrase1" Type="ADS.Models.Store.Phrase" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Phrase1">
+        <PropertyRef Name="Code" />
+      </Principal>
+      <Dependent Role="Phrase">
+        <PropertyRef Name="PhraseCode" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="EntityTypeLanguageLanguage">
+    <End Role="EntityTypeLanguage" Type="ADS.Models.Store.EntityTypeLanguage" Multiplicity="*" />
+    <End Role="Language" Type="ADS.Models.Store.Language" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <ReferentialConstraint>
+      <Principal Role="Language">
+        <PropertyRef Name="Code" />
+      </Principal>
+      <Dependent Role="EntityTypeLanguage">
+        <PropertyRef Name="LanguageCode" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="EntityTypeLanguageEntityType">
+    <End Role="EntityTypeLanguage" Type="ADS.Models.Store.EntityTypeLanguage" Multiplicity="*" />
+    <End Role="EntityType" Type="ADS.Models.Store.EntityType" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <ReferentialConstraint>
+      <Principal Role="EntityType">
+        <PropertyRef Name="Name" />
+      </Principal>
+      <Dependent Role="EntityTypeLanguage">
+        <PropertyRef Name="EntityTypeName" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="CountryLanguageLanguage">
+    <End Role="CountryLanguage" Type="ADS.Models.Store.CountryLanguage" Multiplicity="*" />
+    <End Role="Language" Type="ADS.Models.Store.Language" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <ReferentialConstraint>
+      <Principal Role="Language">
+        <PropertyRef Name="Code" />
+      </Principal>
+      <Dependent Role="CountryLanguage">
+        <PropertyRef Name="LanguageCode" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="CountryLanguageCountry">
+    <End Role="CountryLanguage" Type="ADS.Models.Store.CountryLanguage" Multiplicity="*" />
+    <End Role="Country" Type="ADS.Models.Store.Country" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <ReferentialConstraint>
+      <Principal Role="Country">
+        <PropertyRef Name="Code" />
+      </Principal>
+      <Dependent Role="CountryLanguage">
+        <PropertyRef Name="CountryCode" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="EntityCountry">
+    <End Role="Entity" Type="ADS.Models.Store.Entity" Multiplicity="*" />
+    <End Role="Country" Type="ADS.Models.Store.Country" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <ReferentialConstraint>
+      <Principal Role="Country">
+        <PropertyRef Name="Code" />
+      </Principal>
+      <Dependent Role="Entity">
+        <PropertyRef Name="CountryCode" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="EntityEntityType">
+    <End Role="Entity" Type="ADS.Models.Store.Entity" Multiplicity="*" />
+    <End Role="EntityType" Type="ADS.Models.Store.EntityType" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <ReferentialConstraint>
+      <Principal Role="EntityType">
+        <PropertyRef Name="Name" />
+      </Principal>
+      <Dependent Role="Entity">
+        <PropertyRef Name="EntityTypeName" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="EntityVertex">
+    <End Role="Entity" Type="ADS.Models.Store.Entity" Multiplicity="*" />
+    <End Role="Vertex" Type="ADS.Models.Store.Vertex" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <ReferentialConstraint>
+      <Principal Role="Vertex">
+        <PropertyRef Name="Latitude" />
+        <PropertyRef Name="Longitude" />
+      </Principal>
+      <Dependent Role="Entity">
+        <PropertyRef Name="VertexLatitude" />
+        <PropertyRef Name="VertexLongitude" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="EntityLanguageLanguage">
+    <End Role="EntityLanguage" Type="ADS.Models.Store.EntityLanguage" Multiplicity="*" />
+    <End Role="Language" Type="ADS.Models.Store.Language" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <ReferentialConstraint>
+      <Principal Role="Language">
+        <PropertyRef Name="Code" />
+      </Principal>
+      <Dependent Role="EntityLanguage">
+        <PropertyRef Name="LanguageCode" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="EntityLanguageEntity">
+    <End Role="EntityLanguage" Type="ADS.Models.Store.EntityLanguage" Multiplicity="*" />
+    <End Role="Entity" Type="ADS.Models.Store.Entity" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <ReferentialConstraint>
+      <Principal Role="Entity">
+        <PropertyRef Name="Name" />
+        <PropertyRef Name="ZipCode" />
+      </Principal>
+      <Dependent Role="EntityLanguage">
+        <PropertyRef Name="EntityName" />
+        <PropertyRef Name="EntityZipCode" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="IdentifiedZoneVertex">
+    <End Role="IdentifiedZone" Type="ADS.Models.Store.IdentifiedZone" Multiplicity="*" />
+    <End Role="Vertex" Type="ADS.Models.Store.Vertex" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <ReferentialConstraint>
+      <Principal Role="Vertex">
+        <PropertyRef Name="Latitude" />
+        <PropertyRef Name="Longitude" />
+      </Principal>
+      <Dependent Role="IdentifiedZone">
+        <PropertyRef Name="Vertex_Latitude" />
+        <PropertyRef Name="Vertex_Longitude" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="IdentifiedZoneScheduleIdentifiedZoneType">
+    <End Role="IdentifiedZoneSchedule" Type="ADS.Models.Store.IdentifiedZoneSchedule" Multiplicity="*" />
+    <End Role="IdentifiedZoneType" Type="ADS.Models.Store.IdentifiedZoneType" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <ReferentialConstraint>
+      <Principal Role="IdentifiedZoneType">
+        <PropertyRef Name="Name" />
+      </Principal>
+      <Dependent Role="IdentifiedZoneSchedule">
+        <PropertyRef Name="IdentifiedZoneTypeName" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="IdentifiedZoneScheduleIdentifiedZone">
+    <End Role="IdentifiedZoneSchedule" Type="ADS.Models.Store.IdentifiedZoneSchedule" Multiplicity="*" />
+    <End Role="IdentifiedZone" Type="ADS.Models.Store.IdentifiedZone" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <ReferentialConstraint>
+      <Principal Role="IdentifiedZone">
+        <PropertyRef Name="Name" />
+      </Principal>
+      <Dependent Role="IdentifiedZoneSchedule">
+        <PropertyRef Name="IdentifiedZoneName" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="CommunicationCommunicationType">
+    <End Role="Communication" Type="ADS.Models.Store.Communication" Multiplicity="*" />
+    <End Role="CommunicationType" Type="ADS.Models.Store.CommunicationType" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <ReferentialConstraint>
+      <Principal Role="CommunicationType">
+        <PropertyRef Name="Name" />
+      </Principal>
+      <Dependent Role="Communication">
+        <PropertyRef Name="CommunicationTypeName" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="CommunicationCommunicationState">
+    <End Role="Communication" Type="ADS.Models.Store.Communication" Multiplicity="*" />
+    <End Role="CommunicationState" Type="ADS.Models.Store.CommunicationState" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <ReferentialConstraint>
+      <Principal Role="CommunicationState">
+        <PropertyRef Name="Name" />
+      </Principal>
+      <Dependent Role="Communication">
+        <PropertyRef Name="CommunicationStateName" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="ADS.Models" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="ADSEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Theme" EntityType="ADS.Models.Theme" />
+          <EntitySet Name="Topic" EntityType="ADS.Models.Topic" />
+          <AssociationSet Name="TopicTheme" Association="ADS.Models.TopicTheme">
+            <End Role="Topic" EntitySet="Topic" />
+            <End Role="Theme" EntitySet="Theme" />
+          </AssociationSet>
+          <EntitySet Name="SubTopic" EntityType="ADS.Models.SubTopic" />
+          <AssociationSet Name="SubTopicTopic" Association="ADS.Models.SubTopicTopic">
+            <End Role="SubTopic" EntitySet="SubTopic" />
+            <End Role="Topic" EntitySet="Topic" />
+          </AssociationSet>
+          <EntitySet Name="Language" EntityType="ADS.Models.Language" />
+          <EntitySet Name="ThemeContent" EntityType="ADS.Models.ThemeContent" />
+          <AssociationSet Name="ThemeContentTheme" Association="ADS.Models.ThemeContentTheme">
+            <End Role="ThemeContent" EntitySet="ThemeContent" />
+            <End Role="Theme" EntitySet="Theme" />
+          </AssociationSet>
+          <AssociationSet Name="ThemeContentLanguage" Association="ADS.Models.ThemeContentLanguage">
+            <End Role="ThemeContent" EntitySet="ThemeContent" />
+            <End Role="Language" EntitySet="Language" />
+          </AssociationSet>
+          <EntitySet Name="TopicContent" EntityType="ADS.Models.TopicContent" />
+          <AssociationSet Name="TopicContentTopic" Association="ADS.Models.TopicContentTopic">
+            <End Role="TopicContent" EntitySet="TopicContent" />
+            <End Role="Topic" EntitySet="Topic" />
+          </AssociationSet>
+          <AssociationSet Name="TopicContentLanguage" Association="ADS.Models.TopicContentLanguage">
+            <End Role="TopicContent" EntitySet="TopicContent" />
+            <End Role="Language" EntitySet="Language" />
+          </AssociationSet>
+          <EntitySet Name="SubTopicContent" EntityType="ADS.Models.SubTopicContent" />
+          <AssociationSet Name="SubTopicContentSubTopic" Association="ADS.Models.SubTopicContentSubTopic">
+            <End Role="SubTopicContent" EntitySet="SubTopicContent" />
+            <End Role="SubTopic" EntitySet="SubTopic" />
+          </AssociationSet>
+          <AssociationSet Name="SubTopicContentLanguage" Association="ADS.Models.SubTopicContentLanguage">
+            <End Role="SubTopicContent" EntitySet="SubTopicContent" />
+            <End Role="Language" EntitySet="Language" />
+          </AssociationSet>
+          <EntitySet Name="Phrase" EntityType="ADS.Models.Phrase" />
+          <AssociationSet Name="PhraseLanguage" Association="ADS.Models.PhraseLanguage">
+            <End Role="Phrase" EntitySet="Phrase" />
+            <End Role="Language" EntitySet="Language" />
+          </AssociationSet>
+          <AssociationSet Name="PhrasePhrase" Association="ADS.Models.PhrasePhrase">
+            <End Role="Phrase" EntitySet="Phrase" />
+            <End Role="Phrase1" EntitySet="Phrase" />
+          </AssociationSet>
+          <EntitySet Name="EntityType" EntityType="ADS.Models.EntityType" />
+          <EntitySet Name="EntityTypeLanguage" EntityType="ADS.Models.EntityTypeLanguage" />
+          <AssociationSet Name="EntityTypeLanguageLanguage" Association="ADS.Models.EntityTypeLanguageLanguage">
+            <End Role="EntityTypeLanguage" EntitySet="EntityTypeLanguage" />
+            <End Role="Language" EntitySet="Language" />
+          </AssociationSet>
+          <AssociationSet Name="EntityTypeLanguageEntityType" Association="ADS.Models.EntityTypeLanguageEntityType">
+            <End Role="EntityTypeLanguage" EntitySet="EntityTypeLanguage" />
+            <End Role="EntityType" EntitySet="EntityType" />
+          </AssociationSet>
+          <EntitySet Name="Vertex" EntityType="ADS.Models.Vertex" />
+          <EntitySet Name="Entity" EntityType="ADS.Models.Entity" />
+          <EntitySet Name="Country" EntityType="ADS.Models.Country" />
+          <EntitySet Name="CountryLanguage" EntityType="ADS.Models.CountryLanguage" />
+          <AssociationSet Name="CountryLanguageLanguage" Association="ADS.Models.CountryLanguageLanguage">
+            <End Role="CountryLanguage" EntitySet="CountryLanguage" />
+            <End Role="Language" EntitySet="Language" />
+          </AssociationSet>
+          <AssociationSet Name="CountryLanguageCountry" Association="ADS.Models.CountryLanguageCountry">
+            <End Role="CountryLanguage" EntitySet="CountryLanguage" />
+            <End Role="Country" EntitySet="Country" />
+          </AssociationSet>
+          <AssociationSet Name="EntityCountry" Association="ADS.Models.EntityCountry">
+            <End Role="Entity" EntitySet="Entity" />
+            <End Role="Country" EntitySet="Country" />
+          </AssociationSet>
+          <AssociationSet Name="EntityEntityType" Association="ADS.Models.EntityEntityType">
+            <End Role="Entity" EntitySet="Entity" />
+            <End Role="EntityType" EntitySet="EntityType" />
+          </AssociationSet>
+          <AssociationSet Name="EntityVertex" Association="ADS.Models.EntityVertex">
+            <End Role="Entity" EntitySet="Entity" />
+            <End Role="Vertex" EntitySet="Vertex" />
+          </AssociationSet>
+          <EntitySet Name="EntityLanguage" EntityType="ADS.Models.EntityLanguage" />
+          <AssociationSet Name="EntityLanguageLanguage" Association="ADS.Models.EntityLanguageLanguage">
+            <End Role="EntityLanguage" EntitySet="EntityLanguage" />
+            <End Role="Language" EntitySet="Language" />
+          </AssociationSet>
+          <AssociationSet Name="EntityLanguageEntity" Association="ADS.Models.EntityLanguageEntity">
+            <End Role="EntityLanguage" EntitySet="EntityLanguage" />
+            <End Role="Entity" EntitySet="Entity" />
+          </AssociationSet>
+          <EntitySet Name="IdentifiedZone" EntityType="ADS.Models.IdentifiedZone" />
+          <AssociationSet Name="IdentifiedZoneVertex" Association="ADS.Models.IdentifiedZoneVertex">
+            <End Role="IdentifiedZone" EntitySet="IdentifiedZone" />
+            <End Role="Vertex" EntitySet="Vertex" />
+          </AssociationSet>
+          <EntitySet Name="IdentifiedZoneType" EntityType="ADS.Models.IdentifiedZoneType" />
+          <EntitySet Name="IdentifiedZoneSchedule" EntityType="ADS.Models.IdentifiedZoneSchedule" />
+          <AssociationSet Name="IdentifiedZoneScheduleIdentifiedZoneType" Association="ADS.Models.IdentifiedZoneScheduleIdentifiedZoneType">
+            <End Role="IdentifiedZoneSchedule" EntitySet="IdentifiedZoneSchedule" />
+            <End Role="IdentifiedZoneType" EntitySet="IdentifiedZoneType" />
+          </AssociationSet>
+          <AssociationSet Name="IdentifiedZoneScheduleIdentifiedZone" Association="ADS.Models.IdentifiedZoneScheduleIdentifiedZone">
+            <End Role="IdentifiedZoneSchedule" EntitySet="IdentifiedZoneSchedule" />
+            <End Role="IdentifiedZone" EntitySet="IdentifiedZone" />
+          </AssociationSet>
+          <EntitySet Name="CommunicationType" EntityType="ADS.Models.CommunicationType" />
+          <EntitySet Name="CommunicationState" EntityType="ADS.Models.CommunicationState" />
+          <EntitySet Name="Communication" EntityType="ADS.Models.Communication" />
+          <AssociationSet Name="CommunicationCommunicationType" Association="ADS.Models.CommunicationCommunicationType">
+            <End Role="Communication" EntitySet="Communication" />
+            <End Role="CommunicationType" EntitySet="CommunicationType" />
+          </AssociationSet>
+          <AssociationSet Name="CommunicationCommunicationState" Association="ADS.Models.CommunicationCommunicationState">
+            <End Role="Communication" EntitySet="Communication" />
+            <End Role="CommunicationState" EntitySet="CommunicationState" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Theme">
+          <Key>
+            <PropertyRef Name="Title" />
+          </Key>
+          <Property Name="Title" Type="String" Nullable="false" annotation:StoreGeneratedPattern="None" MaxLength="64" />
+          <Property Name="Description" Type="String" Nullable="true" MaxLength="128" />
+          <Property Name="Visibility" Type="Boolean" Nullable="false" DefaultValue="False" />
+          <Property Name="Icon" Type="String" Nullable="true" MaxLength="512" />
+          <NavigationProperty Name="Topic" Relationship="ADS.Models.TopicTheme" FromRole="Theme" ToRole="Topic" />
+          <NavigationProperty Name="ThemeContent" Relationship="ADS.Models.ThemeContentTheme" FromRole="Theme" ToRole="ThemeContent" />
+        </EntityType>
+        <EntityType Name="Topic">
+          <Key>
+            <PropertyRef Name="Title" />
+            <PropertyRef Name="ThemeTitle" />
+          </Key>
+          <Property Name="ThemeTitle" Type="String" Nullable="false" MaxLength="64" />
+          <Property Name="Title" Type="String" Nullable="false" annotation:StoreGeneratedPattern="None" MaxLength="64" />
+          <NavigationProperty Name="Theme" Relationship="ADS.Models.TopicTheme" FromRole="Topic" ToRole="Theme" />
+          <NavigationProperty Name="SubTopic" Relationship="ADS.Models.SubTopicTopic" FromRole="Topic" ToRole="SubTopic" />
+          <Property Name="Description" Type="String" Nullable="true" MaxLength="128" />
+          <Property Name="Visibility" Type="Boolean" Nullable="false" DefaultValue="False" />
+          <Property Name="Icon" Type="String" Nullable="true" MaxLength="512" />
+          <NavigationProperty Name="TopicContent" Relationship="ADS.Models.TopicContentTopic" FromRole="Topic" ToRole="TopicContent" />
+        </EntityType>
+        <Association Name="TopicTheme">
+          <End Type="ADS.Models.Topic" Role="Topic" Multiplicity="*" />
+          <End Type="ADS.Models.Theme" Role="Theme" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
+          <ReferentialConstraint>
+            <Principal Role="Theme">
+              <PropertyRef Name="Title" />
+            </Principal>
+            <Dependent Role="Topic">
+              <PropertyRef Name="ThemeTitle" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="SubTopic">
+          <Key>
+            <PropertyRef Name="Title" />
+            <PropertyRef Name="TopicTitle" />
+            <PropertyRef Name="TopicThemeTitle" />
+          </Key>
+          <Property Name="TopicThemeTitle" Type="String" Nullable="false" MaxLength="64" />
+          <Property Name="TopicTitle" Type="String" Nullable="false" MaxLength="64" />
+          <Property Name="Title" Type="String" Nullable="false" annotation:StoreGeneratedPattern="None" MaxLength="64" />
+          <NavigationProperty Name="Topic" Relationship="ADS.Models.SubTopicTopic" FromRole="SubTopic" ToRole="Topic" />
+          <Property Name="Description" Type="String" Nullable="true" MaxLength="128" />
+          <Property Name="Visibility" Type="Boolean" Nullable="false" DefaultValue="False" />
+          <Property Name="Icon" Type="String" Nullable="true" MaxLength="512" />
+          <NavigationProperty Name="SubTopicContent" Relationship="ADS.Models.SubTopicContentSubTopic" FromRole="SubTopic" ToRole="SubTopicContent" />
+        </EntityType>
+        <Association Name="SubTopicTopic">
+          <End Type="ADS.Models.SubTopic" Role="SubTopic" Multiplicity="*" />
+          <End Type="ADS.Models.Topic" Role="Topic" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
+          <ReferentialConstraint>
+            <Principal Role="Topic">
+              <PropertyRef Name="Title" />
+              <PropertyRef Name="ThemeTitle" />
+            </Principal>
+            <Dependent Role="SubTopic">
+              <PropertyRef Name="TopicTitle" />
+              <PropertyRef Name="TopicThemeTitle" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Language">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="String" Nullable="false" annotation:StoreGeneratedPattern="None" MaxLength="8" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="64" />
+          <NavigationProperty Name="ThemeContent" Relationship="ADS.Models.ThemeContentLanguage" FromRole="Language" ToRole="ThemeContent" />
+          <NavigationProperty Name="TopicContent" Relationship="ADS.Models.TopicContentLanguage" FromRole="Language" ToRole="TopicContent" />
+          <NavigationProperty Name="SubTopicContent" Relationship="ADS.Models.SubTopicContentLanguage" FromRole="Language" ToRole="SubTopicContent" />
+          <NavigationProperty Name="Phrase" Relationship="ADS.Models.PhraseLanguage" FromRole="Language" ToRole="Phrase" />
+          <NavigationProperty Name="EntityTypeLanguage" Relationship="ADS.Models.EntityTypeLanguageLanguage" FromRole="Language" ToRole="EntityTypeLanguage" />
+          <NavigationProperty Name="CountryLanguage" Relationship="ADS.Models.CountryLanguageLanguage" FromRole="Language" ToRole="CountryLanguage" />
+          <NavigationProperty Name="EntityLanguage" Relationship="ADS.Models.EntityLanguageLanguage" FromRole="Language" ToRole="EntityLanguage" />
+        </EntityType>
+        <EntityType Name="ThemeContent" >
+          <Key>
+            <PropertyRef Name="ThemeTitle" />
+            <PropertyRef Name="LanguageCode" />
+          </Key>
+          <NavigationProperty Name="Theme" Relationship="ADS.Models.ThemeContentTheme" FromRole="ThemeContent" ToRole="Theme" />
+          <Property Name="ThemeTitle" Type="String" Nullable="false" MaxLength="64" />
+          <NavigationProperty Name="Language" Relationship="ADS.Models.ThemeContentLanguage" FromRole="ThemeContent" ToRole="Language" />
+          <Property Name="LanguageCode" Type="String" Nullable="false" MaxLength="8" />
+          <Property Name="TranslatedTitle" Type="String" Nullable="false" MaxLength="64" />
+          <Property Name="Visibility" Type="Boolean" Nullable="false" DefaultValue="False" />
+          <Property Name="Document" Type="String" Nullable="true" MaxLength="512" />
+        </EntityType>
+        <Association Name="ThemeContentTheme">
+          <End Type="ADS.Models.ThemeContent" Role="ThemeContent" Multiplicity="*" />
+          <End Type="ADS.Models.Theme" Role="Theme" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
+          <ReferentialConstraint>
+            <Principal Role="Theme">
+              <PropertyRef Name="Title" />
+            </Principal>
+            <Dependent Role="ThemeContent">
+              <PropertyRef Name="ThemeTitle" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ThemeContentLanguage">
+          <End Type="ADS.Models.ThemeContent" Role="ThemeContent" Multiplicity="*" />
+          <End Type="ADS.Models.Language" Role="Language" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
+          <ReferentialConstraint>
+            <Principal Role="Language">
+              <PropertyRef Name="Code" />
+            </Principal>
+            <Dependent Role="ThemeContent">
+              <PropertyRef Name="LanguageCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="TopicContent" >
+          <Key>
+            <PropertyRef Name="TopicTitle" />
+            <PropertyRef Name="TopicThemeTitle" />
+            <PropertyRef Name="LanguageCode" />
+          </Key>
+          <NavigationProperty Name="Topic" Relationship="ADS.Models.TopicContentTopic" FromRole="TopicContent" ToRole="Topic" />
+          <Property Name="TopicTitle" Type="String" Nullable="false" MaxLength="64" />
+          <Property Name="TopicThemeTitle" Type="String" Nullable="false" MaxLength="64" />
+          <NavigationProperty Name="Language" Relationship="ADS.Models.TopicContentLanguage" FromRole="TopicContent" ToRole="Language" />
+          <Property Name="LanguageCode" Type="String" Nullable="false" MaxLength="8" />
+          <Property Name="TranslatedTitle" Type="String" Nullable="false" MaxLength="64" />
+          <Property Name="Visibility" Type="Boolean" Nullable="false" DefaultValue="False" />
+          <Property Name="Document" Type="String" Nullable="true" MaxLength="512" />
+        </EntityType>
+        <Association Name="TopicContentTopic">
+          <End Type="ADS.Models.TopicContent" Role="TopicContent" Multiplicity="*" />
+          <End Type="ADS.Models.Topic" Role="Topic" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
+          <ReferentialConstraint>
+            <Principal Role="Topic">
+              <PropertyRef Name="Title" />
+              <PropertyRef Name="ThemeTitle" />
+            </Principal>
+            <Dependent Role="TopicContent">
+              <PropertyRef Name="TopicTitle" />
+              <PropertyRef Name="TopicThemeTitle" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="TopicContentLanguage">
+          <End Type="ADS.Models.TopicContent" Role="TopicContent" Multiplicity="*" />
+          <End Type="ADS.Models.Language" Role="Language" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
+          <ReferentialConstraint>
+            <Principal Role="Language">
+              <PropertyRef Name="Code" />
+            </Principal>
+            <Dependent Role="TopicContent">
+              <PropertyRef Name="LanguageCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="SubTopicContent" >
+          <Key>
+            <PropertyRef Name="SubTopicTitle" />
+            <PropertyRef Name="SubTopicTopicTitle" />
+            <PropertyRef Name="SubTopicTopicThemeTitle" />
+            <PropertyRef Name="LanguageCode" />
+          </Key>
+          <NavigationProperty Name="SubTopic" Relationship="ADS.Models.SubTopicContentSubTopic" FromRole="SubTopicContent" ToRole="SubTopic" />
+          <Property Name="SubTopicTitle" Type="String" Nullable="false" MaxLength="64" />
+          <Property Name="SubTopicTopicTitle" Type="String" Nullable="false" MaxLength="64" />
+          <Property Name="SubTopicTopicThemeTitle" Type="String" Nullable="false" MaxLength="64" />
+          <NavigationProperty Name="Language" Relationship="ADS.Models.SubTopicContentLanguage" FromRole="SubTopicContent" ToRole="Language" />
+          <Property Name="LanguageCode" Type="String" Nullable="false" MaxLength="8" />
+          <Property Name="TranslatedTitle" Type="String" Nullable="false" MaxLength="64" />
+          <Property Name="Visibility" Type="Boolean" Nullable="false" DefaultValue="False" />
+          <Property Name="Document" Type="String" Nullable="true" MaxLength="512" />
+        </EntityType>
+        <Association Name="SubTopicContentSubTopic">
+          <End Type="ADS.Models.SubTopicContent" Role="SubTopicContent" Multiplicity="*" />
+          <End Type="ADS.Models.SubTopic" Role="SubTopic" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
+          <ReferentialConstraint>
+            <Principal Role="SubTopic">
+              <PropertyRef Name="Title" />
+              <PropertyRef Name="TopicTitle" />
+              <PropertyRef Name="TopicThemeTitle" />
+            </Principal>
+            <Dependent Role="SubTopicContent">
+              <PropertyRef Name="SubTopicTitle" />
+              <PropertyRef Name="SubTopicTopicTitle" />
+              <PropertyRef Name="SubTopicTopicThemeTitle" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="SubTopicContentLanguage">
+          <End Type="ADS.Models.SubTopicContent" Role="SubTopicContent" Multiplicity="*" />
+          <End Type="ADS.Models.Language" Role="Language" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
+          <ReferentialConstraint>
+            <Principal Role="Language">
+              <PropertyRef Name="Code" />
+            </Principal>
+            <Dependent Role="SubTopicContent">
+              <PropertyRef Name="LanguageCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Phrase">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="String" Nullable="false" annotation:StoreGeneratedPattern="None" MaxLength="64" />
+          <NavigationProperty Name="Language" Relationship="ADS.Models.PhraseLanguage" FromRole="Phrase" ToRole="Language" />
+          <Property Name="LanguageCode" Type="String" Nullable="false" MaxLength="8" />
+          <NavigationProperty Name="Ascendent" Relationship="ADS.Models.PhrasePhrase" FromRole="Phrase" ToRole="Phrase1" />
+          <NavigationProperty Name="Descendent" Relationship="ADS.Models.PhrasePhrase" FromRole="Phrase1" ToRole="Phrase" />
+          <Property Name="PhraseCode" Type="String" Nullable="true" MaxLength="64" />
+          <Property Name="Content" Type="String" Nullable="false" MaxLength="128" />
+        </EntityType>
+        <Association Name="PhraseLanguage">
+          <End Type="ADS.Models.Phrase" Role="Phrase" Multiplicity="*" />
+          <End Type="ADS.Models.Language" Role="Language" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
+          <ReferentialConstraint>
+            <Principal Role="Language">
+              <PropertyRef Name="Code" />
+            </Principal>
+            <Dependent Role="Phrase">
+              <PropertyRef Name="LanguageCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="PhrasePhrase">
+          <End Type="ADS.Models.Phrase" Role="Phrase" Multiplicity="*" />
+          <End Type="ADS.Models.Phrase" Role="Phrase1" Multiplicity="0..1" >
+          </End>
+          <ReferentialConstraint>
+            <Principal Role="Phrase1">
+              <PropertyRef Name="Code" />
+            </Principal>
+            <Dependent Role="Phrase">
+              <PropertyRef Name="PhraseCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="EntityType">
+          <Key>
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Name" Type="String" Nullable="false" annotation:StoreGeneratedPattern="None" MaxLength="64" />
+          <NavigationProperty Name="EntityTypeLanguage" Relationship="ADS.Models.EntityTypeLanguageEntityType" FromRole="EntityType" ToRole="EntityTypeLanguage" />
+          <NavigationProperty Name="Entity" Relationship="ADS.Models.EntityEntityType" FromRole="EntityType" ToRole="Entity" />
+        </EntityType>
+        <EntityType Name="EntityTypeLanguage" >
+          <Key>
+            <PropertyRef Name="LanguageCode" />
+            <PropertyRef Name="EntityTypeName" />
+          </Key>
+          <NavigationProperty Name="Language" Relationship="ADS.Models.EntityTypeLanguageLanguage" FromRole="EntityTypeLanguage" ToRole="Language" />
+          <Property Name="LanguageCode" Type="String" Nullable="false" MaxLength="8" />
+          <NavigationProperty Name="EntityType" Relationship="ADS.Models.EntityTypeLanguageEntityType" FromRole="EntityTypeLanguage" ToRole="EntityType" />
+          <Property Name="EntityTypeName" Type="String" Nullable="false" MaxLength="64" />
+          <Property Name="TranslateName" Type="String" Nullable="false" MaxLength="64" />
+        </EntityType>
+        <Association Name="EntityTypeLanguageLanguage">
+          <End Type="ADS.Models.EntityTypeLanguage" Role="EntityTypeLanguage" Multiplicity="*" />
+          <End Type="ADS.Models.Language" Role="Language" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
+          <ReferentialConstraint>
+            <Principal Role="Language">
+              <PropertyRef Name="Code" />
+            </Principal>
+            <Dependent Role="EntityTypeLanguage">
+              <PropertyRef Name="LanguageCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="EntityTypeLanguageEntityType">
+          <End Type="ADS.Models.EntityTypeLanguage" Role="EntityTypeLanguage" Multiplicity="*" />
+          <End Type="ADS.Models.EntityType" Role="EntityType" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
+          <ReferentialConstraint>
+            <Principal Role="EntityType">
+              <PropertyRef Name="Name" />
+            </Principal>
+            <Dependent Role="EntityTypeLanguage">
+              <PropertyRef Name="EntityTypeName" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Vertex" >
+          <Key>
+            <PropertyRef Name="Latitude" />
+            <PropertyRef Name="Longitude" />
+          </Key>
+          <Property Name="Latitude" Type="Double" Nullable="false" />
+          <Property Name="Longitude" Type="Double" Nullable="false" />
+          <NavigationProperty Name="Entity" Relationship="ADS.Models.EntityVertex" FromRole="Vertex" ToRole="Entity" />
+          <NavigationProperty Name="IdentifiedZone" Relationship="ADS.Models.IdentifiedZoneVertex" FromRole="Vertex" ToRole="IdentifiedZone" />
+        </EntityType>
+        <EntityType Name="Entity" >
+          <Key>
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="ZipCode" />
+          </Key>
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="128" />
+          <Property Name="ZipCode" Type="String" Nullable="false" MaxLength="8" />
+          <NavigationProperty Name="Country" Relationship="ADS.Models.EntityCountry" FromRole="Entity" ToRole="Country" />
+          <Property Name="CountryCode" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="EntityType" Relationship="ADS.Models.EntityEntityType" FromRole="Entity" ToRole="EntityType" />
+          <Property Name="EntityTypeName" Type="String" Nullable="false" MaxLength="64" />
+          <NavigationProperty Name="Vertex" Relationship="ADS.Models.EntityVertex" FromRole="Entity" ToRole="Vertex" />
+          <Property Name="VertexLatitude" Type="Double" Nullable="false" />
+          <Property Name="VertexLongitude" Type="Double" Nullable="false" />
+          <Property Name="Phone" Type="Int64" Nullable="false" />
+          <Property Name="Address" Type="String" Nullable="false" MaxLength="128" />
+          <Property Name="Attachment" Type="String" Nullable="true" MaxLength="512" />
+          <NavigationProperty Name="EntityLanguage" Relationship="ADS.Models.EntityLanguageEntity" FromRole="Entity" ToRole="EntityLanguage" />
+        </EntityType>
+        <EntityType Name="Country">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="64" />
+          <NavigationProperty Name="CountryLanguage" Relationship="ADS.Models.CountryLanguageCountry" FromRole="Country" ToRole="CountryLanguage" />
+          <NavigationProperty Name="Entity" Relationship="ADS.Models.EntityCountry" FromRole="Country" ToRole="Entity" />
+        </EntityType>
+        <EntityType Name="CountryLanguage" >
+          <Key>
+            <PropertyRef Name="LanguageCode" />
+            <PropertyRef Name="CountryCode" />
+          </Key>
+          <NavigationProperty Name="Language" Relationship="ADS.Models.CountryLanguageLanguage" FromRole="CountryLanguage" ToRole="Language" />
+          <Property Name="LanguageCode" Type="String" Nullable="false" MaxLength="8" />
+          <NavigationProperty Name="Country" Relationship="ADS.Models.CountryLanguageCountry" FromRole="CountryLanguage" ToRole="Country" />
+          <Property Name="CountryCode" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="CountryLanguageLanguage">
+          <End Type="ADS.Models.CountryLanguage" Role="CountryLanguage" Multiplicity="*" />
+          <End Type="ADS.Models.Language" Role="Language" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
+          <ReferentialConstraint>
+            <Principal Role="Language">
+              <PropertyRef Name="Code" />
+            </Principal>
+            <Dependent Role="CountryLanguage">
+              <PropertyRef Name="LanguageCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="CountryLanguageCountry">
+          <End Type="ADS.Models.CountryLanguage" Role="CountryLanguage" Multiplicity="*" />
+          <End Type="ADS.Models.Country" Role="Country" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="Code" />
+            </Principal>
+            <Dependent Role="CountryLanguage">
+              <PropertyRef Name="CountryCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="EntityCountry">
+          <End Type="ADS.Models.Entity" Role="Entity" Multiplicity="*" />
+          <End Type="ADS.Models.Country" Role="Country" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="Code" />
+            </Principal>
+            <Dependent Role="Entity">
+              <PropertyRef Name="CountryCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="EntityEntityType">
+          <End Type="ADS.Models.Entity" Role="Entity" Multiplicity="*" />
+          <End Type="ADS.Models.EntityType" Role="EntityType" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
+          <ReferentialConstraint>
+            <Principal Role="EntityType">
+              <PropertyRef Name="Name" />
+            </Principal>
+            <Dependent Role="Entity">
+              <PropertyRef Name="EntityTypeName" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="EntityVertex">
+          <End Type="ADS.Models.Entity" Role="Entity" Multiplicity="*" />
+          <End Type="ADS.Models.Vertex" Role="Vertex" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
+          <ReferentialConstraint>
+            <Principal Role="Vertex">
+              <PropertyRef Name="Latitude" />
+              <PropertyRef Name="Longitude" />
+            </Principal>
+            <Dependent Role="Entity">
+              <PropertyRef Name="VertexLatitude" />
+              <PropertyRef Name="VertexLongitude" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="EntityLanguage">
+          <Key>
+            <PropertyRef Name="LanguageCode" />
+            <PropertyRef Name="EntityName" />
+            <PropertyRef Name="EntityZipCode" />
+          </Key>
+          <NavigationProperty Name="Language" Relationship="ADS.Models.EntityLanguageLanguage" FromRole="EntityLanguage" ToRole="Language" />
+          <Property Name="LanguageCode" Type="String" Nullable="false" MaxLength="8" />
+          <NavigationProperty Name="Entity" Relationship="ADS.Models.EntityLanguageEntity" FromRole="EntityLanguage" ToRole="Entity" />
+          <Property Name="EntityName" Type="String" Nullable="false" MaxLength="128" />
+          <Property Name="EntityZipCode" Type="String" Nullable="false" MaxLength="8" />
+          <Property Name="TranslatedName" Type="String" Nullable="false" MaxLength="128" />
+        </EntityType>
+        <Association Name="EntityLanguageLanguage">
+          <End Type="ADS.Models.EntityLanguage" Role="EntityLanguage" Multiplicity="*" />
+          <End Type="ADS.Models.Language" Role="Language" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
+          <ReferentialConstraint>
+            <Principal Role="Language">
+              <PropertyRef Name="Code" />
+            </Principal>
+            <Dependent Role="EntityLanguage">
+              <PropertyRef Name="LanguageCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="EntityLanguageEntity">
+          <End Type="ADS.Models.EntityLanguage" Role="EntityLanguage" Multiplicity="*" />
+          <End Type="ADS.Models.Entity" Role="Entity" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
+          <ReferentialConstraint>
+            <Principal Role="Entity">
+              <PropertyRef Name="Name" />
+              <PropertyRef Name="ZipCode" />
+            </Principal>
+            <Dependent Role="EntityLanguage">
+              <PropertyRef Name="EntityName" />
+              <PropertyRef Name="EntityZipCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="IdentifiedZone">
+          <Key>
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Name" Type="String" Nullable="false" annotation:StoreGeneratedPattern="None" MaxLength="64" />
+          <Property Name="Radius" Type="Double" Nullable="false" />
+          <NavigationProperty Name="Vertex" Relationship="ADS.Models.IdentifiedZoneVertex" FromRole="IdentifiedZone" ToRole="Vertex" />
+          <NavigationProperty Name="IdentifiedZoneSchedule" Relationship="ADS.Models.IdentifiedZoneScheduleIdentifiedZone" FromRole="IdentifiedZone" ToRole="IdentifiedZoneSchedule" />
+        </EntityType>
+        <Association Name="IdentifiedZoneVertex">
+          <End Type="ADS.Models.IdentifiedZone" Role="IdentifiedZone" Multiplicity="0..1" />
+          <End Type="ADS.Models.Vertex" Role="Vertex" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
+        </Association>
+        <EntityType Name="IdentifiedZoneType">
+          <Key>
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Name" Type="String" Nullable="false" annotation:StoreGeneratedPattern="None" MaxLength="64" />
+          <Property Name="Notification" Type="String" Nullable="false" MaxLength="128" />
+          <NavigationProperty Name="IdentifiedZoneSchedule" Relationship="ADS.Models.IdentifiedZoneScheduleIdentifiedZoneType" FromRole="IdentifiedZoneType" ToRole="IdentifiedZoneSchedule" />
+        </EntityType>
+        <EntityType Name="IdentifiedZoneSchedule" >
+          <Key>
+            <PropertyRef Name="IdentifiedZoneTypeName" />
+            <PropertyRef Name="IdentifiedZoneName" />
+          </Key>
+          <NavigationProperty Name="IdentifiedZoneType" Relationship="ADS.Models.IdentifiedZoneScheduleIdentifiedZoneType" FromRole="IdentifiedZoneSchedule" ToRole="IdentifiedZoneType" />
+          <Property Name="IdentifiedZoneTypeName" Type="String" Nullable="false" MaxLength="64" />
+          <NavigationProperty Name="IdentifiedZone" Relationship="ADS.Models.IdentifiedZoneScheduleIdentifiedZone" FromRole="IdentifiedZoneSchedule" ToRole="IdentifiedZone" />
+          <Property Name="IdentifiedZoneName" Type="String" Nullable="false" MaxLength="64" />
+          <Property Name="Start" Type="Time" Nullable="false" />
+          <Property Name="End" Type="Time" Nullable="false" />
+        </EntityType>
+        <Association Name="IdentifiedZoneScheduleIdentifiedZoneType">
+          <End Type="ADS.Models.IdentifiedZoneSchedule" Role="IdentifiedZoneSchedule" Multiplicity="*" />
+          <End Type="ADS.Models.IdentifiedZoneType" Role="IdentifiedZoneType" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
+          <ReferentialConstraint>
+            <Principal Role="IdentifiedZoneType">
+              <PropertyRef Name="Name" />
+            </Principal>
+            <Dependent Role="IdentifiedZoneSchedule">
+              <PropertyRef Name="IdentifiedZoneTypeName" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="IdentifiedZoneScheduleIdentifiedZone">
+          <End Type="ADS.Models.IdentifiedZoneSchedule" Role="IdentifiedZoneSchedule" Multiplicity="*" />
+          <End Type="ADS.Models.IdentifiedZone" Role="IdentifiedZone" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
+          <ReferentialConstraint>
+            <Principal Role="IdentifiedZone">
+              <PropertyRef Name="Name" />
+            </Principal>
+            <Dependent Role="IdentifiedZoneSchedule">
+              <PropertyRef Name="IdentifiedZoneName" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="CommunicationType">
+          <Key>
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Name" Type="String" Nullable="false" annotation:StoreGeneratedPattern="None" MaxLength="64" />
+          <NavigationProperty Name="Communication" Relationship="ADS.Models.CommunicationCommunicationType" FromRole="CommunicationType" ToRole="Communication" />
+        </EntityType>
+        <EntityType Name="CommunicationState">
+          <Key>
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Name" Type="String" Nullable="false" annotation:StoreGeneratedPattern="None" MaxLength="64" />
+          <NavigationProperty Name="Communication" Relationship="ADS.Models.CommunicationCommunicationState" FromRole="CommunicationState" ToRole="Communication" />
+        </EntityType>
+        <EntityType Name="Communication">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="CommunicationType" Relationship="ADS.Models.CommunicationCommunicationType" FromRole="Communication" ToRole="CommunicationType" />
+          <Property Name="CommunicationTypeName" Type="String" Nullable="false" MaxLength="64" />
+          <NavigationProperty Name="CommunicationState" Relationship="ADS.Models.CommunicationCommunicationState" FromRole="Communication" ToRole="CommunicationState" />
+          <Property Name="CommunicationStateName" Type="String" Nullable="false" MaxLength="64" />
+          <Property Name="Subject" Type="String" Nullable="false" MaxLength="64" />
+          <Property Name="Content" Type="String" Nullable="false" MaxLength="256" />
+          <Property Name="Attachment" Type="String" Nullable="true" MaxLength="512" />
+          <Property Name="SenderName" Type="String" Nullable="true" MaxLength="64" />
+          <Property Name="SenderEmail" Type="String" Nullable="true" MaxLength="128" />
+          <Property Name="SentOn" Type="DateTime" Nullable="false" />
+          <Property Name="ReceivedOn" Type="DateTime" Nullable="false" />
+        </EntityType>
+        <Association Name="CommunicationCommunicationType">
+          <End Type="ADS.Models.Communication" Role="Communication" Multiplicity="*" />
+          <End Type="ADS.Models.CommunicationType" Role="CommunicationType" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
+          <ReferentialConstraint>
+            <Principal Role="CommunicationType">
+              <PropertyRef Name="Name" />
+            </Principal>
+            <Dependent Role="Communication">
+              <PropertyRef Name="CommunicationTypeName" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="CommunicationCommunicationState">
+          <End Type="ADS.Models.Communication" Role="Communication" Multiplicity="*" />
+          <End Type="ADS.Models.CommunicationState" Role="CommunicationState" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
+          <ReferentialConstraint>
+            <Principal Role="CommunicationState">
+              <PropertyRef Name="Name" />
+            </Principal>
+            <Dependent Role="Communication">
+              <PropertyRef Name="CommunicationStateName" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ADSModelsStoreContainer" CdmEntityContainer="ADSEntities">
+    <EntitySetMapping Name="Theme">
+      <EntityTypeMapping TypeName="IsTypeOf(ADS.Models.Theme)">
+        <MappingFragment StoreEntitySet="Theme">
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Visibility" ColumnName="Visibility" />
+          <ScalarProperty Name="Icon" ColumnName="Icon" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Topic">
+      <EntityTypeMapping TypeName="IsTypeOf(ADS.Models.Topic)">
+        <MappingFragment StoreEntitySet="Topic">
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="ThemeTitle" ColumnName="ThemeTitle" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Visibility" ColumnName="Visibility" />
+          <ScalarProperty Name="Icon" ColumnName="Icon" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SubTopic">
+      <EntityTypeMapping TypeName="IsTypeOf(ADS.Models.SubTopic)">
+        <MappingFragment StoreEntitySet="SubTopic">
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="TopicTitle" ColumnName="TopicTitle" />
+          <ScalarProperty Name="TopicThemeTitle" ColumnName="TopicThemeTitle" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Visibility" ColumnName="Visibility" />
+          <ScalarProperty Name="Icon" ColumnName="Icon" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Language">
+      <EntityTypeMapping TypeName="IsTypeOf(ADS.Models.Language)">
+        <MappingFragment StoreEntitySet="Language">
+          <ScalarProperty Name="Code" ColumnName="Code" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ThemeContent">
+      <EntityTypeMapping TypeName="IsTypeOf(ADS.Models.ThemeContent)">
+        <MappingFragment StoreEntitySet="ThemeContent">
+          <ScalarProperty Name="ThemeTitle" ColumnName="ThemeTitle" />
+          <ScalarProperty Name="LanguageCode" ColumnName="LanguageCode" />
+          <ScalarProperty Name="TranslatedTitle" ColumnName="TranslatedTitle" />
+          <ScalarProperty Name="Visibility" ColumnName="Visibility" />
+          <ScalarProperty Name="Document" ColumnName="Document" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TopicContent">
+      <EntityTypeMapping TypeName="IsTypeOf(ADS.Models.TopicContent)">
+        <MappingFragment StoreEntitySet="TopicContent">
+          <ScalarProperty Name="TopicTitle" ColumnName="TopicTitle" />
+          <ScalarProperty Name="TopicThemeTitle" ColumnName="TopicThemeTitle" />
+          <ScalarProperty Name="LanguageCode" ColumnName="LanguageCode" />
+          <ScalarProperty Name="TranslatedTitle" ColumnName="TranslatedTitle" />
+          <ScalarProperty Name="Visibility" ColumnName="Visibility" />
+          <ScalarProperty Name="Document" ColumnName="Document" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SubTopicContent">
+      <EntityTypeMapping TypeName="IsTypeOf(ADS.Models.SubTopicContent)">
+        <MappingFragment StoreEntitySet="SubTopicContent">
+          <ScalarProperty Name="SubTopicTitle" ColumnName="SubTopicTitle" />
+          <ScalarProperty Name="SubTopicTopicTitle" ColumnName="SubTopicTopicTitle" />
+          <ScalarProperty Name="SubTopicTopicThemeTitle" ColumnName="SubTopicTopicThemeTitle" />
+          <ScalarProperty Name="LanguageCode" ColumnName="LanguageCode" />
+          <ScalarProperty Name="TranslatedTitle" ColumnName="TranslatedTitle" />
+          <ScalarProperty Name="Visibility" ColumnName="Visibility" />
+          <ScalarProperty Name="Document" ColumnName="Document" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Phrase">
+      <EntityTypeMapping TypeName="IsTypeOf(ADS.Models.Phrase)">
+        <MappingFragment StoreEntitySet="Phrase">
+          <ScalarProperty Name="Code" ColumnName="Code" />
+          <ScalarProperty Name="LanguageCode" ColumnName="LanguageCode" />
+          <ScalarProperty Name="PhraseCode" ColumnName="PhraseCode" />
+          <ScalarProperty Name="Content" ColumnName="Content" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="EntityType">
+      <EntityTypeMapping TypeName="IsTypeOf(ADS.Models.EntityType)">
+        <MappingFragment StoreEntitySet="EntityType">
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="EntityTypeLanguage">
+      <EntityTypeMapping TypeName="IsTypeOf(ADS.Models.EntityTypeLanguage)">
+        <MappingFragment StoreEntitySet="EntityTypeLanguage">
+          <ScalarProperty Name="LanguageCode" ColumnName="LanguageCode" />
+          <ScalarProperty Name="EntityTypeName" ColumnName="EntityTypeName" />
+          <ScalarProperty Name="TranslateName" ColumnName="TranslateName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Vertex">
+      <EntityTypeMapping TypeName="IsTypeOf(ADS.Models.Vertex)">
+        <MappingFragment StoreEntitySet="Vertex">
+          <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+          <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Entity">
+      <EntityTypeMapping TypeName="IsTypeOf(ADS.Models.Entity)">
+        <MappingFragment StoreEntitySet="Entity">
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="ZipCode" ColumnName="ZipCode" />
+          <ScalarProperty Name="CountryCode" ColumnName="CountryCode" />
+          <ScalarProperty Name="EntityTypeName" ColumnName="EntityTypeName" />
+          <ScalarProperty Name="VertexLatitude" ColumnName="VertexLatitude" />
+          <ScalarProperty Name="VertexLongitude" ColumnName="VertexLongitude" />
+          <ScalarProperty Name="Phone" ColumnName="Phone" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="Attachment" ColumnName="Attachment" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Country">
+      <EntityTypeMapping TypeName="IsTypeOf(ADS.Models.Country)">
+        <MappingFragment StoreEntitySet="Country">
+          <ScalarProperty Name="Code" ColumnName="Code" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CountryLanguage">
+      <EntityTypeMapping TypeName="IsTypeOf(ADS.Models.CountryLanguage)">
+        <MappingFragment StoreEntitySet="CountryLanguage">
+          <ScalarProperty Name="LanguageCode" ColumnName="LanguageCode" />
+          <ScalarProperty Name="CountryCode" ColumnName="CountryCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="EntityLanguage">
+      <EntityTypeMapping TypeName="IsTypeOf(ADS.Models.EntityLanguage)">
+        <MappingFragment StoreEntitySet="EntityLanguage">
+          <ScalarProperty Name="LanguageCode" ColumnName="LanguageCode" />
+          <ScalarProperty Name="EntityName" ColumnName="EntityName" />
+          <ScalarProperty Name="EntityZipCode" ColumnName="EntityZipCode" />
+          <ScalarProperty Name="TranslatedName" ColumnName="TranslatedName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="IdentifiedZone">
+      <EntityTypeMapping TypeName="IsTypeOf(ADS.Models.IdentifiedZone)">
+        <MappingFragment StoreEntitySet="IdentifiedZone">
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Radius" ColumnName="Radius" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="IdentifiedZoneType">
+      <EntityTypeMapping TypeName="IsTypeOf(ADS.Models.IdentifiedZoneType)">
+        <MappingFragment StoreEntitySet="IdentifiedZoneType">
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Notification" ColumnName="Notification" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="IdentifiedZoneSchedule">
+      <EntityTypeMapping TypeName="IsTypeOf(ADS.Models.IdentifiedZoneSchedule)">
+        <MappingFragment StoreEntitySet="IdentifiedZoneSchedule">
+          <ScalarProperty Name="IdentifiedZoneTypeName" ColumnName="IdentifiedZoneTypeName" />
+          <ScalarProperty Name="IdentifiedZoneName" ColumnName="IdentifiedZoneName" />
+          <ScalarProperty Name="Start" ColumnName="Start" />
+          <ScalarProperty Name="End" ColumnName="End" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CommunicationType">
+      <EntityTypeMapping TypeName="IsTypeOf(ADS.Models.CommunicationType)">
+        <MappingFragment StoreEntitySet="CommunicationType">
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CommunicationState">
+      <EntityTypeMapping TypeName="IsTypeOf(ADS.Models.CommunicationState)">
+        <MappingFragment StoreEntitySet="CommunicationState">
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Communication">
+      <EntityTypeMapping TypeName="IsTypeOf(ADS.Models.Communication)">
+        <MappingFragment StoreEntitySet="Communication">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="CommunicationTypeName" ColumnName="CommunicationTypeName" />
+          <ScalarProperty Name="CommunicationStateName" ColumnName="CommunicationStateName" />
+          <ScalarProperty Name="Subject" ColumnName="Subject" />
+          <ScalarProperty Name="Content" ColumnName="Content" />
+          <ScalarProperty Name="Attachment" ColumnName="Attachment" />
+          <ScalarProperty Name="SenderName" ColumnName="SenderName" />
+          <ScalarProperty Name="SenderEmail" ColumnName="SenderEmail" />
+          <ScalarProperty Name="SentOn" ColumnName="SentOn" />
+          <ScalarProperty Name="ReceivedOn" ColumnName="ReceivedOn" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="IdentifiedZoneVertex" TypeName="ADS.Models.IdentifiedZoneVertex" StoreEntitySet="IdentifiedZone">
+      <EndProperty Name="Vertex">
+        <ScalarProperty Name="Latitude" ColumnName="Vertex_Latitude" />
+        <ScalarProperty Name="Longitude" ColumnName="Vertex_Longitude" />
+      </EndProperty>
+      <EndProperty Name="IdentifiedZone">
+        <ScalarProperty Name="Name" ColumnName="Name" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="a24535ffdf42436eb5c24583203d212c" Name="Diagram1">
+        <EntityTypeShape EntityType="ADS.Models.Theme" Width="1.5" PointX="3" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ADS.Models.Topic" Width="1.5" PointX="0.75" PointY="9" IsExpanded="true" />
+        <EntityTypeShape EntityType="ADS.Models.SubTopic" Width="1.5" PointX="1.5" PointY="13.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ADS.Models.Language" Width="1.5" PointX="6" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ADS.Models.ThemeContent" Width="1.5" PointX="0.75" PointY="4.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ADS.Models.TopicContent" Width="1.5" PointX="1.5" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ADS.Models.SubTopicContent" Width="1.5" PointX="1.5" PointY="17.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ADS.Models.Phrase" Width="1.5" PointX="3.75" PointY="8.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ADS.Models.EntityType" Width="1.5" PointX="8.25" PointY="15" IsExpanded="true" />
+        <EntityTypeShape EntityType="ADS.Models.EntityTypeLanguage" Width="1.5" PointX="3.75" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ADS.Models.Vertex" Width="1.5" PointX="8.25" PointY="18.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ADS.Models.Entity" Width="1.5" PointX="6" PointY="16.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ADS.Models.Country" Width="1.5" PointX="11.25" PointY="16.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ADS.Models.CountryLanguage" Width="1.5" PointX="3.75" PointY="14.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ADS.Models.EntityLanguage" Width="1.5" PointX="3.75" PointY="17" IsExpanded="true" />
+        <EntityTypeShape EntityType="ADS.Models.IdentifiedZone" Width="1.5" PointX="6" PointY="21.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ADS.Models.IdentifiedZoneType" Width="1.5" PointX="6" PointY="24.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ADS.Models.IdentifiedZoneSchedule" Width="1.5" PointX="3.75" PointY="21" IsExpanded="true" />
+        <EntityTypeShape EntityType="ADS.Models.User" Width="1.5" PointX="8.75" PointY="2.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ADS.Models.Role" Width="1.5" PointX="11" PointY="2.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ADS.Models.CommunicationType" Width="1.5" PointX="8" PointY="8.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ADS.Models.CommunicationState" Width="1.5" PointX="8" PointY="10.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ADS.Models.Communication" Width="1.5" PointX="5.75" PointY="8.5" IsExpanded="true" />
+        <AssociationConnector Association="ADS.Models.TopicTheme" ManuallyRouted="false" />
+        <AssociationConnector Association="ADS.Models.SubTopicTopic" ManuallyRouted="false" />
+        <AssociationConnector Association="ADS.Models.ThemeContentTheme" ManuallyRouted="false" />
+        <AssociationConnector Association="ADS.Models.ThemeContentLanguage" ManuallyRouted="false" />
+        <AssociationConnector Association="ADS.Models.TopicContentTopic" ManuallyRouted="false" />
+        <AssociationConnector Association="ADS.Models.TopicContentLanguage" ManuallyRouted="false" />
+        <AssociationConnector Association="ADS.Models.SubTopicContentSubTopic" ManuallyRouted="false" />
+        <AssociationConnector Association="ADS.Models.SubTopicContentLanguage" ManuallyRouted="false" />
+        <AssociationConnector Association="ADS.Models.PhraseLanguage" ManuallyRouted="false" />
+        <AssociationConnector Association="ADS.Models.PhrasePhrase" ManuallyRouted="false" />
+        <AssociationConnector Association="ADS.Models.EntityTypeLanguageLanguage" ManuallyRouted="false" />
+        <AssociationConnector Association="ADS.Models.EntityTypeLanguageEntityType" ManuallyRouted="false" />
+        <AssociationConnector Association="ADS.Models.CountryLanguageLanguage" ManuallyRouted="false" />
+        <AssociationConnector Association="ADS.Models.CountryLanguageCountry" ManuallyRouted="false" />
+        <AssociationConnector Association="ADS.Models.EntityCountry" ManuallyRouted="false" />
+        <AssociationConnector Association="ADS.Models.EntityEntityType" ManuallyRouted="false" />
+        <AssociationConnector Association="ADS.Models.EntityVertex" ManuallyRouted="false" />
+        <AssociationConnector Association="ADS.Models.EntityLanguageLanguage" ManuallyRouted="false" />
+        <AssociationConnector Association="ADS.Models.EntityLanguageEntity" ManuallyRouted="false" />
+        <AssociationConnector Association="ADS.Models.IdentifiedZoneVertex" ManuallyRouted="false" />
+        <AssociationConnector Association="ADS.Models.IdentifiedZoneScheduleIdentifiedZoneType" ManuallyRouted="false" />
+        <AssociationConnector Association="ADS.Models.IdentifiedZoneScheduleIdentifiedZone" ManuallyRouted="false" />
+        <AssociationConnector Association="ADS.Models.UserRole" ManuallyRouted="false" />
+        <AssociationConnector Association="ADS.Models.CommunicationCommunicationType" ManuallyRouted="false" />
+        <AssociationConnector Association="ADS.Models.CommunicationCommunicationState" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

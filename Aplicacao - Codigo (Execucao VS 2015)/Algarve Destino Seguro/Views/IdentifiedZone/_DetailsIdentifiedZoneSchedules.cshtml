@@ -1,0 +1,193 @@
+﻿@model Algarve_Destino_Seguro.Models.IdentifiedZone
+@{
+    WebGrid webGrid = ViewBag.webGrid;
+}
+
+@webGrid.GetHtml(
+        tableStyle: "table table-hover",
+        columns: webGrid.Columns(
+                webGrid.Column("IdentifiedZoneTypeName", "Tipo de Zona", format:
+                        @<text>
+                            <span id="IdentifiedZoneTypeName">@item.IdentifiedZoneTypeName</span>
+                        </text>
+                    ),
+                webGrid.Column("Start", "Ínicio", format:
+                        @<text>
+                            <span class="display-mode" id="start">@item.Start</span>
+                            <input class="form-control edit-mode" type="text" name="Start" id="Start" value="@item.Start" />
+                        </text>
+                    ),
+                webGrid.Column("End", "Fim", format:
+                        @<text>
+                            <span class="display-mode" id="end">@item.End</span>
+                            <input class="form-control edit-mode" type="text" name="End" id="End" value="@item.End" />
+                        </text>
+                    ),
+                webGrid.Column(format:
+                        @<text>
+                            <a class="save-identifiedzoneschedule edit-mode" href="javascript:void(0)" title="Guardar"><span class="glyphicon glyphicon-ok"></span></a>
+                        </text>
+                    ),
+                webGrid.Column(format:
+                        @<text>
+                            <a class="display-mode edit-identifiedzoneschedule" href="javascript:void(0)" title="Editar"><span class="glyphicon glyphicon-edit"></span></a>
+                            <a class="edit-mode cancel-identifiedzoneschedule" href="javascript:void(0)" title="Cancelar"><span class="glyphicon glyphicon-remove"></span></a>
+                        </text>
+                    ),
+                webGrid.Column(format:
+                        @<text>
+                            <input class="display-mode identifiedzoneschedule-to-delete" type="checkbox" value="@item.IdentifiedZoneTypeName" />
+                        </text>
+                    )
+            ),
+        mode: 0
+    )
+
+@{
+    if (webGrid.Rows.Count > 0)
+    {
+        ViewBag.WebGrid = webGrid;
+        ViewBag.JSFunction = "getIdentifiedZoneSchedulesPage";
+        Html.RenderPartial("_Pagination");
+    }
+}
+
+<script>
+    // Function for table reloading (paging, ...)
+    function getIdentifiedZoneSchedulesPage(pageNumber) {
+        $.ajax({
+            type: "POST",
+            url: "/IdentifiedZone/DetailsGetIdentifiedZoneSchedulesPage/@Html.Raw(Uri.EscapeDataString(@Model.Name))?page=" + pageNumber,
+            success: function (viewHTML) {
+                $("#webgrid-content").html(viewHTML);
+            }
+        });
+    }
+
+    // Identified Zone Schedules function closure
+    $(function () {
+        // Dynamically add "Create", "Refresh" and "Delete" buttons to the table
+        var ths = $("#webgrid-content > table > thead > tr > th").slice(-3);
+        ths.eq(0).html(
+                '<a id="add-identifiedzoneschedule" href="javascript:void(0)" title="Adicionar"><span class="glyphicon glyphicon-plus"></span></a>'
+            );
+        ths.eq(1).html(
+                '<a onclick="getIdentifiedZoneSchedulesPage(@webGrid.PageIndex)" href="javascript:void(0)" title="Actualizar"><span class="glyphicon glyphicon-refresh"></span></a>'
+            );
+        ths.eq(2).html(
+                '<a id="delete-identifiedzoneschedule" href="javascript:void(0)" title="Apagar Seleccionados"><span class="glyphicon glyphicon-remove"></span></a>'
+            );
+
+        // Delete selected identified zone schedules
+        $("#delete-identifiedzoneschedule").on('click', function () {
+            $.each($(".identifiedzoneschedule-to-delete:checked"), function (k, v) {
+                $.post(
+                    '/IdentifiedZone/DeleteSchedule',
+                    {
+                        "IdentifiedZoneTypeName": v.value,
+                        "IdentifiedZoneName": "@Model.Name"
+                    },
+                    function (language) {
+                        getIdentifiedZoneSchedulesPage(@webGrid.PageIndex);
+                    }, "json");
+            });
+        })
+
+        // Add identified zone schedule
+        $("#add-identifiedzoneschedule").on('click', function () {
+            // Add dynamic form to the table
+            $('#webgrid-content > table > tbody').prepend(
+                    '<tr>' +
+                        @{
+                            var options = "";
+                            foreach (var type in Algarve_Destino_Seguro.Models.DBAccessor.GetIdentifiedZoneTypes())
+                            {
+                                options += @Html.Raw("<option value=\"" + @Html.Raw(type.Name) + "\">" + @Html.Raw(type.Name) + "</option>");
+                            }
+                        }
+                        '<td><select class="form-control" name="IdentifiedZoneTypeName" id="IdentifiedZoneTypeName">@Html.Raw(options)</select></td>' +
+                        '<td><input class="form-control" type="text" name="Start" id="Start" /></td>' +
+                        '<td><input class="form-control" type="text" name="End" id="End" /></td>' +
+                        '<td><a class="create-identifiedzoneschedule" href="javascript:void(0)"><span class="glyphicon glyphicon-ok"></a></td>' +
+                        '<td><a class="cancel-create-identifiedzoneschedule" href="javascript:void(0)"><span class="glyphicon glyphicon-remove"></a></td>' +
+                        '<td></td>' +
+                    '</tr>'
+                );
+
+            // Post creation to database
+            $('.create-identifiedzoneschedule').on('click', function () {
+                var tr = $(this).parents('tr:first');
+
+                var form = new FormData();
+                form.append("IdentifiedZoneTypeName", tr.find("#IdentifiedZoneTypeName").val());
+                form.append('IdentifiedZoneName', "@Model.Name");
+                form.append('Start', tr.find('#Start').val());
+                form.append('End', tr.find('#End').val());
+
+                $.ajax({
+                    url: '/IdentifiedZone/CreateSchedule',
+                    type: 'POST',
+                    processData: false,
+                    contentType: false,
+                    dataType: 'json',
+                    data: form
+                });
+
+                tr.remove();
+            });
+
+            // Cancel identified zone schedule creation
+            $('.cancel-create-identifiedzoneschedule').on('click', function () {
+                $(this).parents('tr:first').remove();
+            });
+        });
+
+        // Edit identified zone schedule closure
+        $(function () {
+            // Hide al the edit-mode forms
+            $(".edit-mode").hide();
+
+            // Toggle an identified zone schedule for edition
+            $('.edit-identifiedzoneschedule').on('click', function () {
+                $(this).parents('tr:first').find('.edit-mode, .display-mode').toggle();
+            });
+
+            // Post changes to databse
+            $('.save-identifiedzoneschedule').on('click', function () {
+                var tr = $(this).parents('tr:first');
+
+                var form = new FormData();
+                form.append("IdentifiedZoneTypeName", tr.find("#IdentifiedZoneTypeName").text());
+                form.append('IdentifiedZoneName', "@Model.Name");
+                form.append('Start', tr.find('#Start').val());
+                form.append('End', tr.find('#End').val());
+
+                $.ajax({
+                    url: '/IdentifiedZone/EditSchedule',
+                    type: 'POST',
+                    processData: false,
+                    contentType: false,
+                    dataType: 'json',
+                    data: form,
+                    success: function (identifiedZoneSchedule) {
+                        var start = identifiedZoneSchedule.Start;
+                        var startfmt = ('0' + start.Hours).slice(-2) + ':' + ('0' + start.Minutes).slice(-2) + ':' + ('0' + start.Seconds).slice(-2);
+                        tr.find('#start').text(startfmt);
+
+
+                        var end = identifiedZoneSchedule.End;
+                        var endfmt = ('0' + end.Hours).slice(-2) + ':' + ('0' + end.Minutes).slice(-2) + ':' + ('0' + end.Seconds).slice(-2);
+                        tr.find('#end').text(endfmt);
+                    }
+                });
+
+                tr.find('.edit-mode, .display-mode').toggle();
+            });
+
+            // Cancel changes
+            $('.cancel-identifiedzoneschedule').on('click', function () {
+                $(this).parents('tr:first').find('.edit-mode, .display-mode').toggle();
+            });
+        });
+    })
+</script>
